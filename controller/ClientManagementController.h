@@ -1,0 +1,8 @@
+//
+// Created by Eduard-Andreas Kloos on 17.04.2025.
+//
+
+#ifndef CLIENTMANAGEMENTCONTROLLER_H
+#define CLIENTMANAGEMENTCONTROLLER_H
+
+#endif //CLIENTMANAGEMENTCONTROLLER_H
