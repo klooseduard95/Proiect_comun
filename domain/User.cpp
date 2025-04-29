@@ -3,3 +3,12 @@
 //
 
 #include "User.h"
+
+string User::getEmail() const {
+}
+
+string User::getPassword() const {
+}
+
+string User::getRole() const {
+}

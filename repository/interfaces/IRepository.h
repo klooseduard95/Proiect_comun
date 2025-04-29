@@ -4,6 +4,7 @@
 
 #pragma once
 #include <vector>
+#include <string>
 #ifndef IREPOSITORY_H
 #define IREPOSITORY_H
 
