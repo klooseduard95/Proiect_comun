@@ -18,8 +18,4 @@ add_executable(Proiect_comun main.cpp
         domain/Validations/CustomerValidator.cpp
         domain/Validations/EmployeeValidator.cpp
         domain/Validations/UserValidator.cpp
-        repository/InMemoryRepository.cpp
-        repository/interfaces/IRepository.cpp
-        services/interfaces/ICustomerService.cpp
-        services/interfaces/IOrderService.cpp
-        services/interfaces/IProductService.cpp)
+        repository/InMemoryRepository.cpp)
