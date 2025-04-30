@@ -1,4 +1,5 @@
 #include "Order.h"
+#include "Product.h"
 
 int Order::nextOrderNumber = 1;
 
@@ -6,21 +7,20 @@ Order::Order(const string& orderDate,
              const string& status,
              const string& customerEmail,
              const string& employeeEmail)
-        : orderDate(orderDate),
+        : orderNumber(nextOrderNumber++),
+          orderDate(orderDate),
           status(status),
           customerEmail(customerEmail),
-          employeeEmail(employeeEmail) {
-    orderNumber = nextOrderNumber++;
-}
+          employeeEmail(employeeEmail) {}
 
 void Order::addProduct(const Product& product, int quantity) {
-    products.emplace_back(product, quantity);
+    products.push_back(ProductQuantity(product, quantity));
 }
 
 double Order::getTotalSum() const {
-    double total = 0.0;
-    for (const auto& [product, quantity] : products) {
-        total += product.getPrice() * quantity;
+    double total = 0;
+    for (const auto& productQuantity : products) {
+        total += productQuantity.product.getPrice() * productQuantity.quantity;
     }
     return total;
 }

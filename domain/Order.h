@@ -1,13 +1,21 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <utility>
 #include "Product.h"
 
 using namespace std;
 
 #ifndef ORDER_H
 #define ORDER_H
+
+class ProductQuantity {
+public:
+    Product product;
+    int quantity;
+
+    ProductQuantity(const Product& product, int quantity)
+            : product(product), quantity(quantity) {}
+};
 
 class Order {
 private:
@@ -17,7 +25,7 @@ private:
     string orderDate;
     string status;
 
-    vector<pair<Product, int>> products;
+    vector<ProductQuantity> products;
 
     string customerEmail;
     string employeeEmail;
