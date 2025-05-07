@@ -19,4 +19,5 @@ add_executable(Proiect_comun main.cpp
         domain/Validations/EmployeeValidator.cpp
         domain/Validations/UserValidator.cpp
         repository/InMemoryRepository.cpp
-        repository/UserRepository.cpp)
+        repository/UserRepository.cpp
+        services/UserService.cpp)
