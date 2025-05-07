@@ -13,6 +13,7 @@ private:
     double price;
     int stock;
 public:
+    Product() = default;
     Product(const string& productId,
         const string& name,
         double price,
