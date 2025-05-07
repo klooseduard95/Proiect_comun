@@ -3,3 +3,10 @@
 //
 
 #include "UserManagementController.h"
+
+UserManagementController::UserManagementController(UserService& service)
+    : userService(service) {}
+
+User UserManagementController::loginUser(const std::string& email, const std::string& password) {
+    return userService.login(email, password);
+}
