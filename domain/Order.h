@@ -43,11 +43,8 @@ public:
     int getOrderNumber() const;
     string getOrderDate() const;
     string getStatus() const;
-    string getCustomerEmail() const;
-    string getEmployeeEmail() const;
 
     void setStatus(const string& newStatus);
-    void setEmployeeEmail(const string& email);
 };
 
 #endif // ORDER_H

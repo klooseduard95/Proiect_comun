@@ -4,7 +4,7 @@
 
 class OrderService : public IOrderService {
 private:
-    std::unordered_map<int, Order> orders; // key = order number
+    std::unordered_map<int, Order> orders;
 
 public:
     void createReservation(const Order& order) override;
@@ -22,4 +22,5 @@ public:
     std::vector<Order> getOrdersByStatus(OrderStatus status) const override;
     std::vector<Order> getOrdersForCustomer(const std::string& customerId) const override;
     double getTotalSumForPeriod(const std::string& year, const std::string& month = "") const override;
+    void updateOrder(const Order& order, const std::string& employeeId) const override;
 };

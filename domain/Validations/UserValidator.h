@@ -1,8 +1,8 @@
-//
-// Created by Eduard-Andreas Kloos on 29.04.2025.
-//
+#pragma once
+#include <string>
 
-#ifndef USERVALIDATOR_H
-#define USERVALIDATOR_H
-
-#endif //USERVALIDATOR_H
+class UserValidator {
+public:
+    static bool isEmployee(const std::string& role);
+    static bool isCustomer(const std::string& role);
+};

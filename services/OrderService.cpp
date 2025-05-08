@@ -47,7 +47,7 @@ void OrderService::updateOrder(const Order& order) {
     if (existing.getEmployeeEmail() != order.getEmployeeEmail())
         throw std::runtime_error("Only assigned employee can update the order");
 
-    orders[id] = order; // replace with updated version
+    orders[id] = order;
 }
 
 void OrderService::takeOverOrder(const std::string& orderId, const std::string& employeeId) {

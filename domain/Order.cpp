@@ -49,6 +49,3 @@ void Order::setStatus(const string& newStatus) {
     status = newStatus;
 }
 
-void Order::setEmployeeEmail(const string& email) {
-    employeeEmail = email;
-}

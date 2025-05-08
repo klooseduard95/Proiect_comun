@@ -1,8 +1,14 @@
-//
-// Created by Eduard-Andreas Kloos on 29.04.2025.
-//
+#pragma once
+#include <string>
+#include "../../domain/Order.h"
 
-#ifndef EMPLOYEEVALIDATOR_H
-#define EMPLOYEEVALIDATOR_H
+class EmployeeValidator {
+public:
+    static bool canModifyOrder(const Order& order, const std::string& employeeEmail);
 
-#endif //EMPLOYEEVALIDATOR_H
+    static bool canCompleteOrder(const Order& order);
+
+    static bool canTakeOverOrder(const Order& order, const std::string& employeeEmail);
+
+    static bool canConfirmOrder(const Order& order);
+};

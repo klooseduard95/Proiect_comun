@@ -1,5 +1,9 @@
-//
-// Created by Eduard-Andreas Kloos on 29.04.2025.
-//
-
 #include "UserValidator.h"
+
+bool UserValidator::isEmployee(const std::string& role) {
+    return role == "Employee";
+}
+
+bool UserValidator::isCustomer(const std::string& role) {
+    return role == "Customer";
+}
