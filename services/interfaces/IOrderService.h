@@ -1,6 +1,3 @@
-//
-// Created by Eduard-Andreas Kloos on 29.04.2025.
-//
 #pragma once
 #include <vector>
 #include <string>
@@ -20,6 +17,9 @@ public:
     virtual std::vector<Order> getOrdersForCustomer(const std::string& customerId) const = 0;
 
     virtual double getTotalSumForPeriod(const std::string& year, const std::string& month = "") const = 0;
+
+    virtual void updateOrder(const Order& order, const std::string& employeeId) = 0;
+
 
     virtual ~IOrderService() = default;
 };
