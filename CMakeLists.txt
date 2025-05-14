@@ -3,11 +3,6 @@ project(Proiect_comun)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_subdirectory(controller)
-add_subdirectory(domain)
-add_subdirectory(repository)
-add_subdirectory(ui)
-
 add_executable(Proiect_comun main.cpp)
 target_sources(Proiect_comun PRIVATE
         controller/ClientManagementController.cpp
