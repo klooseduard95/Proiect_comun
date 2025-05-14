@@ -1,44 +1,18 @@
 cmake_minimum_required(VERSION 3.30)
 project(Proiect_comun)
-
 set(CMAKE_CXX_STANDARD 20)
-
-add_subdirectory(controller)
-add_subdirectory(domain)
-add_subdirectory(repository)
-add_subdirectory(ui)
-
-add_executable(Proiect_comun main.cpp)
-target_sources(Proiect_comun PRIVATE
+add_executable(Proiect_comun main.cpp
         controller/ClientManagementController.cpp
         controller/ProductController.cpp
         controller/UserManagementController.cpp
-)
-
-target_sources(Proiect_comun PRIVATE
         domain/Customer.cpp
         domain/Employee.cpp
         domain/Order.cpp
         domain/Product.cpp
         domain/User.cpp
-        domain/Validations/CustomerValidator.cpp
-        domain/Validations/EmployeeValidator.cpp
-        domain/Validations/UserValidator.cpp
-)
-
-target_sources(Proiect_comun PRIVATE
-        repository/InMemoryRepository.h
-)
-
-target_sources(Proiect_comun PRIVATE
         ui/ClientManagementUI.cpp
         ui/UI.cpp
         ui/UserManagementUI.cpp
-)
-
-target_include_directories(Proiect_comun PRIVATE
-        controller
-        domain
-        repository
-        ui
-)
+        domain/Validations/CustomerValidator.cpp
+        domain/Validations/EmployeeValidator.cpp
+        domain/Validations/UserValidator.cpp)
