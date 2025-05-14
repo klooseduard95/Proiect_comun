@@ -1,0 +1,10 @@
+set(DOMAIN_SOURCES
+        Customer.cpp
+        Employee.cpp
+        Order.cpp
+        Product.cpp
+        User.cpp
+        Validations/CustomerValidator.cpp
+        Validations/EmployeeValidator.cpp
+        Validations/UserValidator.cpp
+)
