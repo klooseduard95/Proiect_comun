@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.30)
+
 project(Proiect_comun)
+
 set(CMAKE_CXX_STANDARD 20)
+
 add_executable(Proiect_comun main.cpp
         controller/ClientManagementController.cpp
         controller/ProductController.cpp
