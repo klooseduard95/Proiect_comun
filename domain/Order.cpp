@@ -14,14 +14,14 @@ Order::Order(const string& orderDate,
           employeeEmail(employeeEmail) {}
 
 void Order::addProduct(const Product& product, int quantity) {
-    products.push_back(ProductQuantity(product, quantity));
+    // products.push_back(ProductQuantity(product, quantity));
 }
 
 double Order::getTotalSum() const {
     double total = 0;
-    for (const auto& productQuantity : products) {
-        total += productQuantity.product.getPrice() * productQuantity.quantity;
-    }
+    // for (const auto& productQuantity : products) {
+    //     total += productQuantity.product.getPrice() * productQuantity.quantity;
+    // }
     return total;
 }
 

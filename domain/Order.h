@@ -17,7 +17,7 @@ private:
     string orderDate;
     string status;
 
-    vector<ProductQuantity> products;//nu e bun
+    // vector<ProductQuantity> products;//nu e bun
 
     string customerEmail;
     string employeeEmail;
@@ -35,6 +35,10 @@ public:
     int getOrderNumber() const;
     string getOrderDate() const;
     string getStatus() const;
+
+    string getCustomerEmail() const;
+
+    string getEmployeeEmail() const;
 
     void setStatus(const string& newStatus);
 };
