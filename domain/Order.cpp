@@ -1,51 +1,54 @@
 #include "Order.h"
-#include "Product.h"
 
-int Order::nextOrderNumber = 1;
+using namespace std;
 
-Order::Order(const string& orderDate,
-             const string& status,
-             const string& customerEmail,
-             const string& employeeEmail)
-        : orderNumber(nextOrderNumber++),
-          orderDate(orderDate),
-          status(status),
-          customerEmail(customerEmail),
-          employeeEmail(employeeEmail) {}
+Order::Order(const string& orderId,
+             const string& orderDate,
+             OrderStatus status,
+             const vector<pair<Product, int>>& products,
+             const Customer& customer,
+             const Employee& employee,
+             double totalPrice)
+    : orderId(orderId), orderDate(orderDate), status(status),
+      products(products), customer(customer), employee(employee),
+      totalPrice(totalPrice) {}
 
-void Order::addProduct(const Product& product, int quantity) {
-    // products.push_back(ProductQuantity(product, quantity));
-}
-
-double Order::getTotalSum() const {
-    double total = 0;
-    // for (const auto& productQuantity : products) {
-    //     total += productQuantity.product.getPrice() * productQuantity.quantity;
-    // }
-    return total;
-}
-
-int Order::getOrderNumber() const {
-    return orderNumber;
+string Order::getOrderId() const {
+    return orderId;
 }
 
 string Order::getOrderDate() const {
     return orderDate;
 }
 
-string Order::getStatus() const {
+OrderStatus Order::getStatus() const {
     return status;
 }
 
-string Order::getCustomerEmail() const {
-    return customerEmail;
+vector<pair<Product, int>> Order::getProducts() const {
+    return products;
 }
 
-string Order::getEmployeeEmail() const {
-    return employeeEmail;
+Customer Order::getCustomer() const {
+    return customer;
 }
 
-void Order::setStatus(const string& newStatus) {
+Employee Order::getEmployee() const {
+    return employee;
+}
+
+double Order::getTotalPrice() const {
+    return totalPrice;
+}
+
+void Order::setStatus(OrderStatus newStatus) {
     status = newStatus;
 }
 
+void Order::setEmployee(const Employee& newEmployee) {
+    employee = newEmployee;
+}
+
+void Order::setTotalPrice(double newPrice) {
+    totalPrice = newPrice;
+}
