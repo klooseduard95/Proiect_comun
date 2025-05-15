@@ -10,7 +10,8 @@ add_subdirectory(ui)
 
 add_executable(Proiect_comun main.cpp
         services/UserService.cpp
-        repository/UserRepository.cpp)
+        repository/UserRepository.cpp
+        domain/Validations/ProductValidator.cpp)
 target_sources(Proiect_comun PRIVATE
         controller/ClientManagementController.cpp
         controller/ProductController.cpp

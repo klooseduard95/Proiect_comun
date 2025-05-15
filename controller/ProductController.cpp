@@ -3,6 +3,7 @@
 //
 
 #include "ProductController.h"
+#include "../domain/Validations/ProductValidator.h"
 #include <iostream>
 #include <algorithm>
 
@@ -12,6 +13,8 @@ bool ProductController::createProduct(const std::string& productId, const std::s
     Product newProduct(productId, name, price, stock);
 
     try {
+        ProductValidator::validateForCreate(newProduct);
+
         productRepository->add(newProduct);
         std::cout << "Produsul " << name << " a fost adăugat cu succes.\n";
         return true;
