@@ -12,6 +12,8 @@ class UserManagementUI {
 private:
     UserManagementController& controller;
 
+    void showUserMenu(const User& user); // NEW - Role-based menu
+
 public:
     UserManagementUI(UserManagementController& controller);
     void startLoginFlow();  // this will be used by main() to start login

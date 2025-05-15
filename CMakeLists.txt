@@ -8,7 +8,9 @@ add_subdirectory(domain)
 add_subdirectory(repository)
 add_subdirectory(ui)
 
-add_executable(Proiect_comun main.cpp)
+add_executable(Proiect_comun main.cpp
+        services/UserService.cpp
+        repository/UserRepository.cpp)
 target_sources(Proiect_comun PRIVATE
         controller/ClientManagementController.cpp
         controller/ProductController.cpp

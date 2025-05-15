@@ -15,9 +15,11 @@ private:
     string password;
     string role;
 public:
+    User();
     User(const string& email, const string& password, const string& role);
 
     string getEmail() const;
+    string getId() const;
     string getPassword() const;
     string getRole() const;
 
