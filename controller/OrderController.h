@@ -21,7 +21,7 @@ public:
 
     vector<Order> getOrdersByStatus(OrderStatus status) const;
     vector<Order> getOrdersForCustomer(const string& customerId) const;
-    double getTotalSumForPeriod(const string& year, const tring& month = "") const;
+    double getTotalSumForPeriod(const string& year, const string& month = "") const;
 
     Order getOrderById(const string& orderId) const;
 };
