@@ -14,14 +14,14 @@ public:
     explicit OrderController(IRepository<Order>& repo);
 
     void createReservation(const Order& order);
-    void confirmOrder(const std::string& orderId);
-    void completeOrder(const std::string& orderId);
+    void confirmOrder(const string& orderId);
+    void completeOrder(const string& orderId);
     void updateOrder(const Order& order);
-    void takeOverOrder(const std::string& orderId, const std::string& employeeId);
+    void takeOverOrder(const string& orderId, const string& employeeId);
 
     vector<Order> getOrdersByStatus(OrderStatus status) const;
-    vector<Order> getOrdersForCustomer(const std::string& customerId) const;
-    double getTotalSumForPeriod(const std::string& year, const std::string& month = "") const;
+    vector<Order> getOrdersForCustomer(const string& customerId) const;
+    double getTotalSumForPeriod(const string& year, const tring& month = "") const;
 
-    Order getOrderById(const std::string& orderId) const;
+    Order getOrderById(const string& orderId) const;
 };

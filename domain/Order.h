@@ -17,14 +17,14 @@ private:
     string orderId;
     string orderDate;
     OrderStatus status;
-    vector<std::pair<Product, int>> products;
+    vector<pair<Product, int>> products;
     Customer customer;
     Employee employee;
     double totalPrice;
 
 public:
     // Constructor
-    Order(const string& orderId, const std::string& orderDate, OrderStatus status,
+    Order(const string& orderId, const string& orderDate, OrderStatus status,
           const vector<pair<Product, int>>& products, const Customer& customer,
           const Employee& employee, double totalPrice);
 
@@ -32,7 +32,7 @@ public:
     string getOrderId() const;
     string getOrderDate() const;
     OrderStatus getStatus() const;
-    vector<std::pair<Product, int>> getProducts() const;
+    vector<pair<Product, int>> getProducts() const;
     Customer getCustomer() const;
     Employee getEmployee() const;
     double getTotalPrice() const;
