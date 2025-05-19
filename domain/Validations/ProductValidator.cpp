@@ -1,7 +1,3 @@
-//
-// Created by adeli on 5/15/2025.
-//
-
 #include "ProductValidator.h"
 
 void ProductValidator::validateForCreate(const Product& product) {
@@ -22,8 +18,12 @@ void ProductValidator::validateForUpdate(const Product& product) {
 
 void ProductValidator::validateCommon(const Product& product) {
     // Validate Product ID format - Only letters/numbers
-    if (!std::regex_match(product.getId(), std::regex("^[A-Za-z0-9]+$")))
+    if (!product.getId().empty() && !std::regex_match(product.getId(), std::regex("^[A-Za-z0-9]+$")))
         throw std::invalid_argument("Product ID can only contain letters and numbers.");
+
+    // Validate Product Name - Non-empty
+    if (product.getName().empty())
+        throw std::invalid_argument("Product name cannot be empty.");
 
     // Validate Price - Non-negative
     if (product.getPrice() < 0)
