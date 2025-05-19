@@ -1,46 +1,44 @@
 #pragma once
+using namespace std;
 #include <string>
 #include <vector>
 #include "Product.h"
+#include "Customer.h"
+#include "Employee.h"
 
-using namespace std;
-
-#ifndef ORDER_H
-#define ORDER_H
-
+enum class OrderStatus {
+    Reservation,
+    Confirmed,
+    Completed
+};
 
 class Order {
 private:
-    static int nextOrderNumber;
-
-    int orderNumber;
+    string orderId;
     string orderDate;
-    string status;
-
-    // vector<ProductQuantity> products;//nu e bun
-
-    string customerEmail;
-    string employeeEmail;
+    OrderStatus status;
+    vector<pair<Product, int>> products;
+    Customer customer;
+    Employee employee;
+    double totalPrice;
 
 public:
-    Order(const string& orderDate,
-          const string& status,
-          const string& customerEmail,
-          const string& employeeEmail = "");
+    // Constructor
+    Order(const string& orderId, const string& orderDate, OrderStatus status,
+          const vector<pair<Product, int>>& products, const Customer& customer,
+          const Employee& employee, double totalPrice);
 
-    void addProduct(const Product& product, int quantity);
-
-    double getTotalSum() const;
-
-    int getOrderNumber() const;
+    // Getters
+    string getOrderId() const;
     string getOrderDate() const;
-    string getStatus() const;
+    OrderStatus getStatus() const;
+    vector<pair<Product, int>> getProducts() const;
+    Customer getCustomer() const;
+    Employee getEmployee() const;
+    double getTotalPrice() const;
 
-    string getCustomerEmail() const;
-
-    string getEmployeeEmail() const;
-
-    void setStatus(const string& newStatus);
+    // Setters
+    void setStatus(OrderStatus newStatus);
+    void setEmployee(const Employee& newEmployee);
+    void setTotalPrice(double newPrice);
 };
-
-#endif // ORDER_H

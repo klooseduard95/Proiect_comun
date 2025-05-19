@@ -7,12 +7,13 @@ add_subdirectory(controller)
 add_subdirectory(domain)
 add_subdirectory(repository)
 add_subdirectory(ui)
-add_subdirectory(test)
 
 add_executable(Proiect_comun main.cpp
         services/UserService.cpp
         repository/UserRepository.cpp
         domain/Validations/ProductValidator.cpp)
+        controller/OrderController.cpp
+        controller/OrderController.h)
 target_sources(Proiect_comun PRIVATE
         controller/ClientManagementController.cpp
         controller/ProductController.cpp
