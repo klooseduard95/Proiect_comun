@@ -2,11 +2,13 @@ cmake_minimum_required(VERSION 3.30)
 project(Proiect_comun)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(controller)
 add_subdirectory(domain)
 add_subdirectory(repository)
 add_subdirectory(ui)
+add_subdirectory(test)
 
 add_executable(Proiect_comun main.cpp
         services/UserService.cpp
@@ -14,6 +16,7 @@ add_executable(Proiect_comun main.cpp
         domain/Validations/ProductValidator.cpp)
 target_sources(Proiect_comun PRIVATE
         controller/ClientManagementController.cpp
+        controller/OrderController.cpp
         controller/ProductController.cpp
         controller/UserManagementController.cpp
 )
@@ -46,4 +49,5 @@ target_include_directories(Proiect_comun PRIVATE
         domain
         repository
         ui
+        test
 )
