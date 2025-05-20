@@ -1,67 +1,87 @@
-//
-// Created by Eduard-Andreas Kloos on 17.04.2025.
-//
-
 #include "UserManagementUI.h"
+#include "../domain/Validations/UserValidator.h"
 #include <iostream>
 
+using namespace std;
+
 UserManagementUI::UserManagementUI(UserManagementController& controller)
-    : controller(controller) {}
+    : controller(controller) {
+    // initializeSampleData();
+}
 
 void UserManagementUI::startLoginFlow() {
-    std::string email, password;
-    std::cout << "Email: ";
-    std::getline(std::cin, email);
-    std::cout << "Password: ";
-    std::getline(std::cin, password);
+    string email, password;
+    cout << "Email: ";
+    getline(cin, email);
+    cout << "Password: ";
+    getline(cin, password);
 
     try {
         User loggedInUser = controller.loginUser(email, password);
-        std::cout << "\nLogin successful! Welcome, " << loggedInUser.getEmail() << ".\n";
+        cout << "\nLogin successful! Welcome, " << loggedInUser.getEmail() << ".\n";
         showUserMenu(loggedInUser);
-    } catch (const std::exception& e) {
-        std::cerr << "Login failed: " << e.what() << "\n";
+    } catch (const exception& e) {
+        cerr << "Login failed: " << e.what() << "\n";
     }
 }
 
-// Role-Based User Menu
 void UserManagementUI::showUserMenu(const User& user) {
-    std::cout << "\n--- User Menu ---\n";
-
-    if (user.getRole() == "employee") {
-        std::cout << "1. Manage Customers\n";
-        std::cout << "2. Manage Products\n";
-        std::cout << "3. View Products\n";
-    }
-    else if (user.getRole() == "customer") {
-        std::cout << "1. View Products\n";
-        std::cout << "2. Modify Profile\n";
-        std::cout << "3. Create Reservations\n";
-    }
-    else {
-        std::cout << "Invalid user role.\n";
-        return;
-    }
-
-    // User selects an option
-    int choice;
-    std::cout << "\nEnter your choice: ";
-    std::cin >> choice;
-
-    // Depending on choice, redirect (placeholder for now)
-    switch (choice) {
-        case 1:
-            std::cout << "Option 1 selected.\n";
-            break;
-        case 2:
-            std::cout << "Option 2 selected.\n";
-            break;
-        case 3:
-            std::cout << "Option 3 selected.\n";
-            break;
-        default:
-            std::cout << "Invalid option.\n";
-            break;
+    if (UserValidator::isEmployee(user.getRole())) {
+        showEmployeeMenu();
+    } else if (UserValidator::isCustomer(user.getRole())) {
+        showCustomerMenu();
+    } else {
+        cerr << "Invalid user role.\n";
     }
 }
 
+void UserManagementUI::showEmployeeMenu() {
+    while (true) {
+        cout << "\n--- Employee Menu ---\n";
+        cout << "1. Manage Customers\n";
+        cout << "2. Manage Products\n";
+        cout << "3. Manage Orders\n";
+        cout << "0. Logout\n";
+        int choice = getUserChoice();
+
+        switch (choice) {
+            case 0: return;
+            case 1: /*manageCustomers()*/; break;
+            case 2: /*manageProducts()*/; break;
+            case 3: /*manageOrders()*/; break;
+            default: cout << "Invalid option.\n"; break;
+        }
+    }
+}
+
+void UserManagementUI::showCustomerMenu() {
+    while (true) {
+        cout << "\n--- Customer Menu ---\n";
+        cout << "1. View Products\n";
+        cout << "2. Modify Profile\n";
+        cout << "3. Create Reservation\n";
+        cout << "4. View Orders\n";
+        cout << "0. Logout\n";
+        int choice = getUserChoice();
+
+        switch (choice) {
+            case 0: return;
+            case 1: /*viewProducts()*/; break;
+            case 2: /*modifyProfile()*/; break;
+            case 3: /*createReservation()*/; break;
+            case 4: /*viewOrders()*/; break;
+            default: cout << "Invalid option.\n"; break;
+        }
+    }
+}
+
+int UserManagementUI::getUserChoice() {
+    int choice;
+    cout << "\nEnter your choice: ";
+    while (!(cin >> choice)) {
+        cin.clear();
+        cin.ignore(INT_MAX, '\n');
+        cout << "Invalid input. Please enter a number: ";
+    }
+    return choice;
+}

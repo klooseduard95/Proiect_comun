@@ -12,7 +12,12 @@ class UserManagementUI {
 private:
     UserManagementController& controller;
 
-    void showUserMenu(const User& user); // NEW - Role-based menu
+    void showUserMenu(const User& user);
+    void showEmployeeMenu();
+
+    void showCustomerMenu();
+
+    int getUserChoice();
 
 public:
     UserManagementUI(UserManagementController& controller);
