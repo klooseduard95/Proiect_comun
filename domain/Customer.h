@@ -19,6 +19,7 @@ private:
     bool gdprDeleted;
 
 public:
+    Customer() = default;
     Customer(const std::string& email, const std::string& password,
              const std::string& firstName, const std::string& lastName,
              const std::string& address, const std::string& note = "",

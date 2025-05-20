@@ -4,6 +4,11 @@
 
 #include "Employee.h"
 
+Employee::Employee()
+    : User("", "", "employee"),
+      firstName(""), lastName(""), position(""),
+      birthDate(""), salary(0.0) {}
+
 Employee::Employee(const std::string& email, const std::string& password,
                    const std::string& firstName, const std::string& lastName,
                    const std::string& position, const std::string& birthDate,

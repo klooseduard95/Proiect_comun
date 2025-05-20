@@ -21,15 +21,24 @@ private:
     Customer customer;
     Employee employee;
     double totalPrice;
+    static int nextOrderId;
+
+    static std::string generateOrderId();
+    double calculateTotalPrice() const;
 
 public:
+    Order() = default;
     // Constructor
-    Order(const string& orderId, const string& orderDate, OrderStatus status,
-          const vector<pair<Product, int>>& products, const Customer& customer,
+    Order(const std::string& orderId, const std::string& orderDate, OrderStatus status,
+          const std::vector<std::pair<Product, int>>& products, const Customer& customer,
           const Employee& employee, double totalPrice);
 
+    Order(const std::string& orderDate, OrderStatus status,
+          const std::vector<std::pair<Product, int>>& products, const Customer& customer,
+          const Employee& employee);
+
     // Getters
-    string getOrderId() const;
+    string getId() const;
     string getOrderDate() const;
     OrderStatus getStatus() const;
     vector<pair<Product, int>> getProducts() const;

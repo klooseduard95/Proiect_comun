@@ -29,6 +29,7 @@ target_sources(Proiect_comun PRIVATE
         domain/Validations/CustomerValidator.cpp
         domain/Validations/EmployeeValidator.cpp
         domain/Validations/UserValidator.cpp
+        domain/Validations/OrderValidator.cpp
 )
 
 target_sources(Proiect_comun PRIVATE
@@ -39,6 +40,7 @@ target_sources(Proiect_comun PRIVATE
         ui/ClientManagementUI.cpp
         ui/UI.cpp
         ui/UserManagementUI.cpp
+        ui/ProductManagementUI.cpp
 )
 
 target_include_directories(Proiect_comun PRIVATE
