@@ -4,7 +4,9 @@ set(DOMAIN_SOURCES
         Order.cpp
         Product.cpp
         User.cpp
+        Order.cpp
         Validations/CustomerValidator.cpp
         Validations/EmployeeValidator.cpp
         Validations/UserValidator.cpp
+        Validations/OrderValidator.cpp
 )

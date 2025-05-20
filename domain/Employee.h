@@ -17,6 +17,7 @@ private:
     double salary;
 
 public:
+    Employee();
     Employee(const std::string& email, const std::string& password,
              const std::string& firstName, const std::string& lastName,
              const std::string& position, const std::string& birthDate,

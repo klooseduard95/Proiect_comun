@@ -1,42 +1,34 @@
 #include "OrderController.h"
+#include "../domain/Validations/OrderValidator.h"
 #include <stdexcept>
 #include <algorithm>
 
-using namespace std;
 
 OrderController::OrderController(IRepository<Order>& repo) : orderRepo(repo) {}
 
 void OrderController::createReservation(const Order& order) {
-    if (order.getStatus() != OrderStatus::Reservation) {
-        throw runtime_error("Order status must be Reservation when creating a reservation.");
-    }
+    OrderValidator::validateStatusForReservation(order);
     orderRepo.add(order);
 }
 
 void OrderController::confirmOrder(const string& orderId) {
     Order order = orderRepo.getById(orderId);
-    if (order.getStatus() == OrderStatus::Completed) {
-        throw runtime_error("Cannot confirm a completed order.");
-    }
+    OrderValidator::validateBeforeConfirm(order);
     order.setStatus(OrderStatus::Confirmed);
     orderRepo.update(order);
 }
 
 void OrderController::completeOrder(const string& orderId) {
     Order order = orderRepo.getById(orderId);
-    if (order.getStatus() == OrderStatus::Completed) {
-        throw runtime_error("Order is already completed.");
-    }
+    OrderValidator::validateBeforeComplete(order);
     order.setStatus(OrderStatus::Completed);
     orderRepo.update(order);
 }
 
 void OrderController::updateOrder(const Order& updatedOrder) {
-    Order existingOrder = orderRepo.getById(updatedOrder.getOrderId());
+    Order existingOrder = orderRepo.getById(updatedOrder.getId());
 
-    if (existingOrder.getStatus() == OrderStatus::Completed) {
-        throw runtime_error("Completed orders cannot be modified.");
-    }
+    OrderValidator::validateUpdatePermission(existingOrder, updatedOrder);
 
     // Employees can only update their own orders
     if (existingOrder.getEmployee().getId() != updatedOrder.getEmployee().getId()) {
