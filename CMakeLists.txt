@@ -11,9 +11,8 @@ add_subdirectory(ui)
 add_subdirectory(test)
 
 add_executable(Proiect_comun main.cpp
-        services/UserService.cpp
-        repository/UserRepository.cpp
-        domain/Validations/ProductValidator.cpp)
+        services/UserService.cpp)
+
 target_sources(Proiect_comun PRIVATE
         controller/ClientManagementController.cpp
         controller/OrderController.cpp
@@ -29,12 +28,14 @@ target_sources(Proiect_comun PRIVATE
         domain/User.cpp
         domain/Validations/CustomerValidator.cpp
         domain/Validations/EmployeeValidator.cpp
-        domain/Validations/UserValidator.cpp
         domain/Validations/OrderValidator.cpp
+        domain/Validations/ProductValidator.cpp
+        domain/Validations/UserValidator.cpp
 )
 
 target_sources(Proiect_comun PRIVATE
         repository/InMemoryRepository.h
+        repository/UserRepository.cpp
 )
 
 target_sources(Proiect_comun PRIVATE

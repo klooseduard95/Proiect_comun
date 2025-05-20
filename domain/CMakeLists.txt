@@ -9,4 +9,5 @@ set(DOMAIN_SOURCES
         Validations/EmployeeValidator.cpp
         Validations/UserValidator.cpp
         Validations/OrderValidator.cpp
+        Validations/ProductValidator.cpp
 )
