@@ -36,3 +36,42 @@ target_sources(ProductTest PRIVATE
 # Register the test to CTest
 include(GoogleTest)
 gtest_discover_tests(ProductTest)
+
+# --- Customer Test ---
+add_executable(CustomerTest CustomerTest.cpp)
+
+target_link_libraries(CustomerTest
+        gtest_main
+)
+
+target_include_directories(CustomerTest PRIVATE
+        ../domain
+        ../domain/Validations
+)
+
+target_sources(CustomerTest PRIVATE
+        ../domain/Customer.cpp
+        ../domain/User.cpp
+)
+
+gtest_discover_tests(CustomerTest)
+
+
+# --- Employee Test ---
+add_executable(EmployeeTest EmployeeTest.cpp)
+
+target_link_libraries(EmployeeTest
+        gtest_main
+)
+
+target_include_directories(EmployeeTest PRIVATE
+        ../domain
+        ../domain/Validations
+)
+
+target_sources(EmployeeTest PRIVATE
+        ../domain/Employee.cpp
+        ../domain/User.cpp
+)
+
+gtest_discover_tests(EmployeeTest)
