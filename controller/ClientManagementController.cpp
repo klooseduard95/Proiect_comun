@@ -1,11 +1,12 @@
 #include "ClientManagementController.h"
 #include <algorithm>
-#include <stdexcept>
+#include <stdexept>
+#include <unordered_set>
 
 using namespace std;
 
-CustomerController::CustomerController(IRepository<Customer>* repo)
-    : customerRepository(repo) {}
+CustomerController::CustomerController(IRepository<Customer>* repo, OrderController& orderCtrl)
+    : customerRepository(repo), orderController(orderCtrl) {}
 
 bool CustomerController::createCustomer(const string& email, const string& password,
                                         const string& firstName, const string& lastName,
@@ -28,7 +29,6 @@ bool CustomerController::updateCustomer(const Customer& updatedCustomer) {
         return false;
     }
 }
-//trebuie adaugat sa verifici daca are order!!!
 bool CustomerController::deleteCustomer(const string& email) {
     try {
         customerRepository->remove(email);
@@ -50,4 +50,34 @@ vector<Customer> CustomerController::listAllCustomersSorted() const {
 
 Customer CustomerController::findCustomerByEmail(const string& email) const {
     return customerRepository->getById(email);
+}
+
+vector<Customer> CustomerController::getCustomersByProductSorted(const string& productId) const {
+    vector<Order> orders = orderController.getOrdersByStatus(OrderStatus::Completed);
+    vector<pair<Customer, string>> matching;
+
+    for (const auto& order : orders) {
+        for (const auto& item : order.getProducts()) {
+            if (item.first.getId() == productId) {
+                matching.emplace_back(order.getCustomer(), order.getOrderDate());
+                break;
+            }
+        }
+    }
+
+    // Sort descending by order date
+    sort(matching.begin(), matching.end(), [](const auto& a, const auto& b) {
+        return a.second > b.second;
+    });
+
+    vector<Customer> result;
+    unordered_set<string> seen;
+
+    for (const auto& [customer, _] : matching) {
+        if (seen.insert(customer.getId()).second) {
+            result.push_back(customer);
+        }
+    }
+
+    return result;
 }
