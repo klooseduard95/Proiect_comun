@@ -65,7 +65,6 @@ vector<Customer> CustomerController::getCustomersByProductSorted(const string& p
         }
     }
 
-    // Sort descending by order date
     sort(matching.begin(), matching.end(), [](const auto& a, const auto& b) {
         return a.second > b.second;
     });
