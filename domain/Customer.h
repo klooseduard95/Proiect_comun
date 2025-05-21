@@ -31,7 +31,14 @@ public:
     std::string getNote() const;
     bool isGdprDeleted() const;
 
-    void setGdprDeleted(bool value);
+    void setFirstName(const string&);
+    void setLastName(const string&);
+    void setEmail(const string&);
+    void setAddress(const string&);
+    void setNote(const string&);
+    void setGdprDeleted(bool);
+
+
 };
 
 #endif // CUSTOMER_H

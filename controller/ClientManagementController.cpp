@@ -4,8 +4,8 @@
 
 using namespace std;
 
-CustomerController::CustomerController(IRepository<Customer>* repo)
-    : customerRepository(repo) {}
+CustomerController::CustomerController(IRepository<Customer>* repo, OrderController* orderCtrl)
+    : customerRepository(repo),orderController(orderCtrl) {}
 
 bool CustomerController::createCustomer(const string& email, const string& password,
                                         const string& firstName, const string& lastName,
@@ -28,8 +28,12 @@ bool CustomerController::updateCustomer(const Customer& updatedCustomer) {
         return false;
     }
 }
-//trebuie adaugat sa verifici daca are order!!!
+
 bool CustomerController::deleteCustomer(const string& email) {
+    vector<Order> customerOrders = orderController->getOrdersForCustomer(email);
+    if (!customerOrders.empty()) {
+        throw runtime_error("Customer has existing orders and cannot be deleted.");
+    }
     try {
         customerRepository->remove(email);
         return true;
@@ -51,3 +55,23 @@ vector<Customer> CustomerController::listAllCustomersSorted() const {
 Customer CustomerController::findCustomerByEmail(const string& email) const {
     return customerRepository->getById(email);
 }
+bool CustomerController::anonymizeCustomer(const string& email) {
+    try {
+        Customer customer = customerRepository->getById(email);
+
+        string anonymizedName = "Customer-" + customer.getId();
+
+        customer.setLastName(anonymizedName);
+        customer.setFirstName("Unknown");
+        customer.setEmail("");
+        customer.setAddress("");
+        customer.setNote("");
+        customer.setGdprDeleted(true);
+
+        customerRepository->update(customer);
+        return true;
+    } catch (...) {
+        return false;
+    }
+}
+

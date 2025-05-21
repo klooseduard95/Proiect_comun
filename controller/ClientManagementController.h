@@ -11,14 +11,16 @@
 
 #ifndef CUSTOMERCONTROLLER_H
 #define CUSTOMERCONTROLLER_H
-
+#include "OrderController.h"
 class CustomerController {
 private:
     IRepository<Customer>* customerRepository;
 
 public:
     CustomerController(IRepository<Customer>* repo);
+    OrderController* orderController;
 
+    CustomerController(IRepository<Customer> *repo, OrderController *orderCtrl);
 
     bool createCustomer(const std::string& email, const std::string& password,
                         const std::string& firstName, const std::string& lastName,
@@ -36,6 +38,8 @@ public:
 
 
     Customer findCustomerByEmail(const std::string& email) const;
+
+    bool anonymizeCustomer(const string &email);
 };
 
 #endif // CUSTOMERCONTROLLER_H
