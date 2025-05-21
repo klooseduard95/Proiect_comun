@@ -1,11 +1,8 @@
-//
-// Created by Eduard-Andreas Kloos on [Datum].
-//
-
 #pragma once
 
 #include "../domain/Customer.h"
 #include "../repository/interfaces/IRepository.h"
+#include "../controller/OrderController.h"
 #include <vector>
 #include <string>
 
@@ -15,27 +12,25 @@
 class CustomerController {
 private:
     IRepository<Customer>* customerRepository;
+    OrderController& orderController; // Required only for K3.3
 
 public:
-    CustomerController(IRepository<Customer>* repo);
-
+    CustomerController(IRepository<Customer>* repo, OrderController& orderCtrl);
 
     bool createCustomer(const std::string& email, const std::string& password,
                         const std::string& firstName, const std::string& lastName,
                         const std::string& address, const std::string& note = "",
                         bool gdprDeleted = false);
 
-
     bool updateCustomer(const Customer& updatedCustomer);
-
 
     bool deleteCustomer(const std::string& email);
 
-
     std::vector<Customer> listAllCustomersSorted() const;
 
-
     Customer findCustomerByEmail(const std::string& email) const;
+
+    std::vector<Customer> getCustomersByProductSorted(const std::string& productId) const; // K3.3
 };
 
 #endif // CUSTOMERCONTROLLER_H
