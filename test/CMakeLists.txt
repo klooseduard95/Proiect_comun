@@ -67,3 +67,20 @@ target_link_libraries(EmployeeTest
 )
 
 gtest_discover_tests(EmployeeTest)
+
+# --- UserTest ---
+add_executable(UserTest UserTest.cpp
+                ../domain/User.cpp
+)
+
+target_include_directories(UserTest PRIVATE
+                            ../domain
+                            ../domain/Validations
+)
+
+target_link_libraries(UserTest
+        gtest
+        gtest_main
+)
+
+gtest_discover_tests(UserTest)
