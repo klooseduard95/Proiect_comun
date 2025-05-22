@@ -18,5 +18,30 @@ std::string Customer::getAddress() const { return address; }
 std::string Customer::getNote() const { return note; }
 bool Customer::isGdprDeleted() const { return gdprDeleted; }
 
-void Customer::setGdprDeleted(bool value) { gdprDeleted = value; }
+// Customer.cpp
+
+void Customer::setFirstName(const string& newFirstName) {
+    this->firstName = newFirstName;
+}
+
+void Customer::setLastName(const string& newLastName) {
+    this->lastName = newLastName;
+}
+
+void Customer::setEmail(const string& newEmail) {
+    this->email = newEmail;
+}
+
+void Customer::setAddress(const string& newAddress) {
+    this->address = newAddress;
+}
+
+void Customer::setNote(const string& newNote) {
+    this->note = newNote;
+}
+
+void Customer::setGdprDeleted(bool deleted) {
+    this->gdprDeleted = deleted;
+}
+
 

@@ -10,7 +10,7 @@
 using namespace std;
 
 class User {
-private:
+protected:
     string email;
     string password;
     string role;

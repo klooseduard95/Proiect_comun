@@ -6,6 +6,7 @@
 
 #include "../domain/Customer.h"
 #include "../repository/interfaces/IRepository.h"
+#include "../controller/OrderController.h"
 #include <vector>
 #include <string>
 
@@ -18,7 +19,9 @@ private:
 
 public:
     CustomerController(IRepository<Customer>* repo);
+    OrderController* orderController;
 
+    CustomerController(IRepository<Customer> *repo, OrderController *orderCtrl);
 
     bool createCustomer(const std::string& email, const std::string& password,
                         const std::string& firstName, const std::string& lastName,
@@ -36,6 +39,10 @@ public:
 
 
     Customer findCustomerByEmail(const std::string& email) const;
+
+    vector<Customer> getCustomersByProductSorted(const std::string& productId) const; // K3.3
+
+    bool anonymizeCustomer(const string &email);
 };
 
 #endif // CUSTOMERCONTROLLER_H
