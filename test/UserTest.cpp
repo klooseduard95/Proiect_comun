@@ -16,3 +16,12 @@ TEST(UserTests, CreateAccessUpdateUser ) {
     EXPECT_EQ(user.getPassword(), "Jarda");
     EXPECT_EQ(user.getRole(), "Costumer");
 }
+
+//Test for UserValidator class
+
+TEST(UserValidatorTest, ValidateUserRole) {
+    UserValidator validator;
+    User user1("mihai@gmail.com", "Mihai","Employee");
+    EXPECT_TRUE(validator.isEmployee(user1.getRole()));
+    EXPECT_FALSE(validator.isCustomer(user1.getRole()));
+}
