@@ -2,6 +2,8 @@
 #include <stdexcept>
 #include "../domain/User.h"
 #include "../domain/Validations/UserValidator.h"
+#include "../repository/UserRepository.h"
+#include "../repository/InMemoryRepository.h"
 
 //Test for User class constructor getters and setters
 
@@ -24,4 +26,19 @@ TEST(UserValidatorTest, ValidateUserRole) {
     User user1("mihai@gmail.com", "Mihai","Employee");
     EXPECT_TRUE(validator.isEmployee(user1.getRole()));
     EXPECT_FALSE(validator.isCustomer(user1.getRole()));
+}
+
+//Test for UserRepo
+
+TEST(UserRepositoryTest, ValidateGetByEmail) {
+    User user("mihai@gmail.com", "Mihai","Employee");
+    User user1("mihai@gmail.com", "Jarda","Costumer");
+    UserRepository repo;
+    repo.add(user);
+    EXPECT_EQ(repo.findByEmail(user.getEmail()), user);
+    repo.update(user1);
+    EXPECT_EQ(repo.findByEmail(user.getEmail()), user1);
+    repo.remove(user.getEmail());
+    EXPECT_THROW(repo.findByEmail(user.getEmail()), std::runtime_error);
+
 }

@@ -33,3 +33,7 @@ void User::setPassword(const string &password) {
 void User::setRole(const string &role) {
     this->role = role;
 }
+
+bool User::operator==(const User& other) const {
+    return email == other.email && password == other.password && role == other.role;
+}

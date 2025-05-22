@@ -72,11 +72,13 @@ gtest_discover_tests(EmployeeTest)
 add_executable(UserTest UserTest.cpp
                 ../domain/User.cpp
                 ../domain/Validations/UserValidator.cpp
+                ../repository/UserRepository.cpp
 )
 
 target_include_directories(UserTest PRIVATE
                             ../domain
                             ../domain/Validations
+                            ../repository
 )
 
 target_link_libraries(UserTest
