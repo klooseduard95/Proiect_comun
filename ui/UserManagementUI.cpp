@@ -4,8 +4,8 @@
 
 using namespace std;
 
-UserManagementUI::UserManagementUI(UserManagementController& controller)
-    : controller(controller) {
+UserManagementUI::UserManagementUI(UserManagementController& controller, ProductController& productController, OrderController& orderController, CustomerUI& customerUI, ProductUI& productUI)
+    : controller(controller), productController(productController), orderController(orderController), customerUI(customerUI), productUI(productUI) {
     // initializeSampleData();
 }
 
@@ -40,15 +40,17 @@ void UserManagementUI::showEmployeeMenu() {
         cout << "\n--- Employee Menu ---\n";
         cout << "1. Manage Customers\n";
         cout << "2. Manage Products\n";
-        cout << "3. Manage Orders\n";
+        cout << "3. Manage Orders\n"; // Orders Menu: 1. Change Status - submenu: complete, confirm
+                                      //              2. Update Order - update order details
+                                      //              3. Take Over Order - assign order to another employee
         cout << "0. Logout\n";
         int choice = getUserChoice();
 
         switch (choice) {
             case 0: return;
-            case 1: /*manageCustomers()*/; break;
-            case 2: /*manageProducts()*/; break;
-            case 3: /*manageOrders()*/; break;
+            case 1: customerUI.run(); break;
+            case 2: productUI.showMenu(); break;
+            case 3: ; break;
             default: cout << "Invalid option.\n"; break;
         }
     }
@@ -57,19 +59,20 @@ void UserManagementUI::showEmployeeMenu() {
 void UserManagementUI::showCustomerMenu() {
     while (true) {
         cout << "\n--- Customer Menu ---\n";
-        cout << "1. View Products\n";
-        cout << "2. Modify Profile\n";
-        cout << "3. Create Reservation\n";
-        cout << "4. View Orders\n";
+        cout << "1. View Products\n"; // listAvailableProducts() in ProductController
+        cout << "2. Modify Password\n";
+        cout << "3. Create Reservation\n"; // order menu for customer -> createReservation() -> getter User.email in OrderController
+        cout << "4. View Orders\n"; // submenu 2 - getOrdersForCustomer() in OrderController
+                                    //           - getOrdersByStatus() in OrderController
         cout << "0. Logout\n";
         int choice = getUserChoice();
 
         switch (choice) {
             case 0: return;
-            case 1: /*viewProducts()*/; break;
+            case 1: productController.listAvailableProducts(); break;
             case 2: /*modifyProfile()*/; break;
-            case 3: /*createReservation()*/; break;
-            case 4: /*viewOrders()*/; break;
+            case 3: //submenu; break;
+            case 4: //orderController.getOrdersForCustomer(); break;
             default: cout << "Invalid option.\n"; break;
         }
     }
