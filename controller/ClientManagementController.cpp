@@ -1,6 +1,6 @@
 #include "ClientManagementController.h"
 #include <algorithm>
-#include <stdexcept>
+#include <unordered_set>
 
 using namespace std;
 
@@ -28,12 +28,8 @@ bool CustomerController::updateCustomer(const Customer& updatedCustomer) {
         return false;
     }
 }
-
+//trebuie adaugat sa verifici daca are order!!!
 bool CustomerController::deleteCustomer(const string& email) {
-    vector<Order> customerOrders = orderController->getOrdersForCustomer(email);
-    if (!customerOrders.empty()) {
-        throw runtime_error("Customer has existing orders and cannot be deleted.");
-    }
     try {
         customerRepository->remove(email);
         return true;
@@ -75,3 +71,32 @@ bool CustomerController::anonymizeCustomer(const string& email) {
     }
 }
 
+
+vector<Customer> CustomerController::getCustomersByProductSorted(const string& productId) const {
+    vector<Order> orders = orderController->getOrdersByStatus(OrderStatus::Completed);
+    vector<pair<Customer, string>> matching;
+
+    for (const auto& order : orders) {
+        for (const auto& item : order.getProducts()) {
+            if (item.first.getId() == productId) {
+                matching.emplace_back(order.getCustomer(), order.getOrderDate());
+                break;
+            }
+        }
+    }
+
+    sort(matching.begin(), matching.end(), [](const auto& a, const auto& b) {
+        return a.second > b.second;
+    });
+
+    vector<Customer> result;
+    unordered_set<string> seen;
+
+    for (const auto& [customer, _] : matching) {
+        if (seen.insert(customer.getId()).second) {
+            result.push_back(customer);
+        }
+    }
+
+    return result;
+}
