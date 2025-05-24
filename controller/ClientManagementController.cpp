@@ -101,12 +101,6 @@ vector<Customer> CustomerController::getCustomersByProductSorted(const string& p
     return result;
 }
 
-bool CustomerController::updatePassword(const string& email, const string& password) {
-    bool made = false;
-    if (made == false) {
+void CustomerController::updatePassword(const string& email, const string& password) const {
         customerRepository->getById(email).setPassword(password);
-        made = true;
-        return true;
-    }
-    return false;
 }

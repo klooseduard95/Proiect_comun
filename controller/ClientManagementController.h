@@ -44,7 +44,7 @@ public:
 
     bool anonymizeCustomer(const string &email);
 
-    bool updatePassword(const std::string& email, const std::string& password);
+    void updatePassword(const std::string& email, const std::string& password) const;
 };
 
 #endif // CUSTOMERCONTROLLER_H
