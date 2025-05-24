@@ -1,9 +1,9 @@
 #include "UserValidator.h"
 
 bool UserValidator::isEmployee(const std::string& role) {
-    return role == "Employee";
+    return role == "employee";
 }
 
 bool UserValidator::isCustomer(const std::string& role) {
-    return role == "Customer";
+    return role == "customer";
 }
