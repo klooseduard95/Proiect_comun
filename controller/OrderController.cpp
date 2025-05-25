@@ -6,10 +6,17 @@
 
 OrderController::OrderController(IRepository<Order>& repo) : orderRepo(repo) {}
 
-void OrderController::createReservation(const Order& order) {
-    OrderValidator::validateStatusForReservation(order);
-    orderRepo.add(order);
+void OrderController::createReservation(const User& user, const Order& order) {
+    Customer customer(user.getId(), "", "", "", "");
+
+    Order newOrder(order.getOrderDate(), OrderStatus::Reservation,
+                   order.getProducts(), customer, order.getEmployee());
+
+    OrderValidator::validateStatusForReservation(newOrder);
+    orderRepo.add(newOrder);
 }
+
+
 
 void OrderController::confirmOrder(const string& orderId) {
     Order order = orderRepo.getById(orderId);
@@ -25,33 +32,29 @@ void OrderController::completeOrder(const string& orderId) {
     orderRepo.update(order);
 }
 
-void OrderController::updateOrder(const Order& updatedOrder) {
+void OrderController::updateOrder(const User& user, const Order& updatedOrder) {
     Order existingOrder = orderRepo.getById(updatedOrder.getId());
 
     OrderValidator::validateUpdatePermission(existingOrder, updatedOrder);
 
-    // Employees can only update their own orders
-    if (existingOrder.getEmployee().getId() != updatedOrder.getEmployee().getId()) {
+    if (existingOrder.getEmployee().getId() != user.getId()) {
         throw runtime_error("Employees can only update their own orders.");
     }
 
     orderRepo.update(updatedOrder);
 }
 
-void OrderController::takeOverOrder(const string& orderId, const string& employeeId) {
+
+void OrderController::takeOverOrder(const User& user, const string& orderId) {
     Order order = orderRepo.getById(orderId);
-    const Employee& currentEmployee = order.getEmployee();
 
-    if (currentEmployee.getId() == employeeId) {
-        // Already assigned to this employee, no change needed
-        return;
-    }
+    if (order.getEmployee().getId() == user.getId()) return;
 
-    // Assign new employee (assuming minimal constructor)
-    Employee newEmployee(employeeId, "", "", "", "", "", 0);
+    Employee newEmployee(user.getId(), "", "", "", "", "", 0);
     order.setEmployee(newEmployee);
     orderRepo.update(order);
 }
+
 
 vector<Order> OrderController::getOrdersByStatus(OrderStatus status) const {
     vector<Order> allOrders = orderRepo.getAll();
@@ -63,7 +66,9 @@ vector<Order> OrderController::getOrdersByStatus(OrderStatus status) const {
     return filteredOrders;
 }
 
-vector<Order> OrderController::getOrdersForCustomer(const string& customerId) const {
+vector<Order> OrderController::getOrdersForCustomer(const User& user) const {
+    string customerId = user.getId();
+
     vector<Order> allOrders = orderRepo.getAll();
     vector<Order> filteredOrders;
 
@@ -72,6 +77,7 @@ vector<Order> OrderController::getOrdersForCustomer(const string& customerId) co
 
     return filteredOrders;
 }
+
 
 double OrderController::getTotalSumForPeriod(const string& year, const string& month) const {
     vector<Order> allOrders = orderRepo.getAll();
