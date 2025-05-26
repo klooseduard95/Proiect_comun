@@ -11,7 +11,9 @@ add_subdirectory(ui)
 add_subdirectory(test)
 
 add_executable(Proiect_comun main.cpp
-        services/UserService.cpp)
+        services/UserService.cpp
+        ui/OrderManagementUI.cpp
+        ui/OrderManagementUI.h)
 
 target_sources(Proiect_comun PRIVATE
         controller/ClientManagementController.cpp
