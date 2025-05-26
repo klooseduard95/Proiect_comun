@@ -43,6 +43,8 @@ public:
     vector<Customer> getCustomersByProductSorted(const std::string& productId) const; // K3.3
 
     bool anonymizeCustomer(const string &email);
+
+    void updatePassword(const std::string& email, const std::string& password) const;
 };
 
 #endif // CUSTOMERCONTROLLER_H

@@ -100,3 +100,7 @@ vector<Customer> CustomerController::getCustomersByProductSorted(const string& p
 
     return result;
 }
+
+void CustomerController::updatePassword(const string& email, const string& password) const {
+        customerRepository->getById(email).setPassword(password);
+}

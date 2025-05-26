@@ -25,3 +25,15 @@ string User::getPassword() const {
 string User::getRole() const {
     return role;
 }
+
+void User::setPassword(const string &password) {
+    this->password = password;
+}
+
+void User::setRole(const string &role) {
+    this->role = role;
+}
+
+bool User::operator==(const User& other) const {
+    return email == other.email && password == other.password && role == other.role;
+}
