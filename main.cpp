@@ -37,13 +37,14 @@ int main() {
     InMemoryRepository<Order> orderRepo;
     OrderController orderController(orderRepo);
     UserManagementController userController(userService);
+
     InMemoryRepository<Customer> customerRepo;
     CustomerController clientController(&customerRepo, &orderController);
     CustomerUI customerUI(clientController);
 
     ProductUI productUI(productController);
 
-    UserManagementUI userUI(userController, productController, orderController, customerUI, productUI);
+    UserManagementUI userUI(userController, productController, orderController, clientController,customerUI, productUI);
 
     Customer customer("ion@example.com", "ionpass", "Ion", "Popescu", "Strada Exemplu 10");
     Employee employee("emp001", "pass123", "Andrei", "Ionescu", "Manager", "1985-01-01", 3000);
