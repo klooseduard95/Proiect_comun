@@ -4,8 +4,8 @@
 
 using namespace std;
 
-UserManagementUI::UserManagementUI(UserManagementController& controller, ProductController& productController, OrderController& orderController, CustomerUI& customerUI, ProductUI& productUI)
-    : controller(controller), productController(productController), orderController(orderController), customerUI(customerUI), productUI(productUI) {
+UserManagementUI::UserManagementUI(UserManagementController& controller, ProductController& productController, OrderController& orderController, CustomerController& customerController ,CustomerUI& customerUI, ProductUI& productUI)
+    : userController(controller), productController(productController), orderController(orderController), customerController(customerController) ,customerUI(customerUI), productUI(productUI) {
     // initializeSampleData();
 }
 
@@ -17,7 +17,7 @@ void UserManagementUI::startLoginFlow() {
     getline(cin, password);
 
     try {
-        User loggedInUser = controller.loginUser(email, password);
+        User loggedInUser = userController.loginUser(email, password);
         cout << "\nLogin successful! Welcome, " << loggedInUser.getEmail() << ".\n";
         showUserMenu(loggedInUser);
     } catch (const exception& e) {
@@ -70,7 +70,7 @@ void UserManagementUI::showCustomerMenu() {
         switch (choice) {
             case 0: return;
             case 1: productController.listAvailableProducts(); break;
-            case 2: /*modifyProfile()*/; break;
+            case 2: /*customerController.updatePassword(getNewPassword());*/ break;
             case 3: //submenu; break;
             case 4: //orderController.getOrdersForCustomer(); break;
             default: cout << "Invalid option.\n"; break;
@@ -87,4 +87,15 @@ int UserManagementUI::getUserChoice() {
         cout << "Invalid input. Please enter a number: ";
     }
     return choice;
+}
+
+string UserManagementUI::getNewPassword() {
+    cout << "\nEnter new password: ";
+    string newPassword;
+    cin.ignore();
+    getline(cin, newPassword);
+    if (newPassword.empty()) {
+        throw invalid_argument("Password cannot be empty.");
+    }
+    return newPassword;
 }

@@ -9,14 +9,16 @@
 #include "../controller/UserManagementController.h"
 #include "../controller/ProductController.h"
 #include "../controller/OrderController.h"
+#include "../controller/ClientManagementController.h"
 #include "../ui/ClientManagementUI.h"
 #include "../ui/ProductManagementUI.h"
 
 class UserManagementUI {
 private:
-    UserManagementController& controller;
+    UserManagementController& userController;
     ProductController& productController;
     OrderController& orderController;
+    CustomerController& customerController;
     CustomerUI& customerUI;
     ProductUI& productUI;
 
@@ -27,8 +29,10 @@ private:
 
     int getUserChoice();
 
+    string getNewPassword();
+
 public:
-    UserManagementUI(UserManagementController& controller, ProductController& productController, OrderController& orderController, CustomerUI& customerUI, ProductUI& productUI);
-    void startLoginFlow();  // this will be used by main() to start login
+    UserManagementUI(UserManagementController& controller, ProductController& productController, OrderController& orderController, CustomerController& customerController, CustomerUI& customerUI, ProductUI& productUI);
+    void startLoginFlow();
 };
 #endif //USERMANAGEMENTUI_H
