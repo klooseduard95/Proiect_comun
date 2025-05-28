@@ -7,10 +7,30 @@
 #include <iostream>
 
 using namespace std;
+/**
+ * @file ClientManagementUI.h
+ * @brief User Interface for Customer Management System
+ */
+
+/**
+ * @class CustomerUI
+ * @brief Provides console-based interface for customer management operations
+ *
+ * @details Handles all user interactions for customer CRUD operations,
+ *          GDPR compliance actions, and customer data visualization.
+ */
+
+/**
+     * @brief Constructs a CustomerUI with controller dependency
+     * @param controller Reference to CustomerController for business logic
+     */
 
 CustomerUI::CustomerUI(CustomerController& controller)
     : controller(controller) {}
 
+/**
+     * @brief Displays the main menu options
+     */
 void CustomerUI::displayMenu() {
     cout << "\n--- Customer Management Menu ---\n";
     cout << "1. Create Customer\n";
@@ -23,6 +43,10 @@ void CustomerUI::displayMenu() {
     cout << "Select an option: ";
 }
 
+/**
+     * @brief Main application loop
+     * @details Continuously displays menu and processes user input until exit
+     */
 void CustomerUI::run() {
     int option;
     do {
@@ -43,6 +67,11 @@ void CustomerUI::run() {
     } while (option != 0);
 }
 
+/**
+     * @brief Handles customer creation workflow
+     * @details Collects all required customer data from user input
+     * and attempts creation through controller
+     */
 void CustomerUI::handleCreateCustomer() {
     string email, password, firstName, lastName, address, note;
     bool gdprDeleted;
@@ -59,6 +88,11 @@ void CustomerUI::handleCreateCustomer() {
     cout << (success ? "Customer created.\n" : "Failed to create customer.\n");
 }
 
+/**
+     * @brief Handles customer update workflow
+     * @details Allows partial updates of customer information
+     * @throws std::exception if customer lookup fails
+     */
 void CustomerUI::handleUpdateCustomer() {
     string email;
     cout << "Enter customer email to update: ";
@@ -90,6 +124,11 @@ void CustomerUI::handleUpdateCustomer() {
     }
 }
 
+/**
+     * @brief Handles GDPR anonymization workflow
+     * @details Permanently removes PII while maintaining referential integrity
+     * @throws std::exception if anonymization fails
+     */
 void CustomerUI::handleDeleteCustomer() {
     string email;
     cout << "Enter customer email to delete: ";
@@ -103,6 +142,11 @@ void CustomerUI::handleDeleteCustomer() {
     }
 }
 
+/**
+     * @brief Handles GDPR anonymization workflow
+     * @details Permanently removes PII while maintaining referential integrity
+     * @throws std::exception if anonymization fails
+     */
 void CustomerUI::handleAnonymizeCustomer() {
     string email;
     cout << "Enter customer email to anonymize: ";
@@ -115,7 +159,10 @@ void CustomerUI::handleAnonymizeCustomer() {
         cout << "Error: " << e.what() << endl;
     }
 }
-
+/**
+     * @brief Displays all customers in sorted order
+     * @details Shows name, email and GDPR status in tabular format
+     */
 void CustomerUI::handleListCustomers() {
     vector<Customer> customers = controller.listAllCustomersSorted();
     for (const auto& customer : customers) {
@@ -124,7 +171,11 @@ void CustomerUI::handleListCustomers() {
              << " | GDPR: " << (customer.isGdprDeleted() ? "Yes" : "No") << endl;
     }
 }
-
+/**
+    * @brief Handles customer lookup by email
+    * @details Shows detailed customer information including address
+    * @throws std::exception if customer not found
+    */
 void CustomerUI::handleFindCustomer() {
     string email;
     cout << "Enter customer email: ";

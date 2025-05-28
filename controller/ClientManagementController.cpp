@@ -4,9 +4,33 @@
 
 using namespace std;
 
+/**
+ * @file ClientManagementController.h
+ * @brief Controller for managing customer operations.
+ */
+
+/**
+ * @class CustomerController
+ * @brief Handles customer-related operations including creation, update, deletion, and queries.
+ */
+/**
+     * @brief Constructs a CustomerController with dependencies.
+     * @param repo Pointer to customer repository
+     * @param orderCtrl Pointer to order controller
+     */
 CustomerController::CustomerController(IRepository<Customer>* repo, OrderController* orderCtrl)
     : customerRepository(repo),orderController(orderCtrl) {}
-
+/**
+     * @brief Creates a new customer.
+     * @param email Customer's email (unique identifier)
+     * @param password Customer's password
+     * @param firstName Customer's first name
+     * @param lastName Customer's last name
+     * @param address Customer's physical address
+     * @param note Additional notes about customer
+     * @param gdprDeleted GDPR compliance flag
+     * @return true if creation succeeded, false otherwise
+     */
 bool CustomerController::createCustomer(const string& email, const string& password,
                                         const string& firstName, const string& lastName,
                                         const string& address, const string& note,
@@ -19,7 +43,11 @@ bool CustomerController::createCustomer(const string& email, const string& passw
         return false;
     }
 }
-
+/**
+     * @brief Updates an existing customer.
+     * @param updatedCustomer Customer object with updated data
+     * @return true if update succeeded, false otherwise
+     */
 bool CustomerController::updateCustomer(const Customer& updatedCustomer) {
     try {
         customerRepository->update(updatedCustomer);
@@ -28,8 +56,15 @@ bool CustomerController::updateCustomer(const Customer& updatedCustomer) {
         return false;
     }
 }
-//trebuie adaugat sa verifici daca are order!!!
+/**
+     * @brief Deletes a customer if they have no orders.
+     * @param email Customer's email identifier
+     * @return true if deletion succeeded, false if customer has orders or operation failed
+     */
 bool CustomerController::deleteCustomer(const string& email) {
+    Customer customer = customerRepository->getById(email);
+    if (orderController->getOrdersForCustomer(customer).size()==0)
+        return false;
     try {
         customerRepository->remove(email);
         return true;
@@ -37,7 +72,10 @@ bool CustomerController::deleteCustomer(const string& email) {
         return false;
     }
 }
-
+/**
+     * @brief Retrieves all customers sorted by last name (then first name).
+     * @return Vector of customers in alphabetical order
+     */
 vector<Customer> CustomerController::listAllCustomersSorted() const {
     vector<Customer> customers = customerRepository->getAll();
     sort(customers.begin(), customers.end(), [](const Customer& a, const Customer& b) {
@@ -47,10 +85,20 @@ vector<Customer> CustomerController::listAllCustomersSorted() const {
     });
     return customers;
 }
-
+/**
+    * @brief Finds a customer by email.
+    * @param email Customer's unique email identifier
+    * @return Customer object
+    * @throws RepositoryException if customer not found
+    */
 Customer CustomerController::findCustomerByEmail(const string& email) const {
     return customerRepository->getById(email);
 }
+/**
+     * @brief Anonymizes customer data for GDPR compliance.
+     * @param email Customer's email identifier
+     * @return true if anonymization succeeded, false otherwise
+     */
 bool CustomerController::anonymizeCustomer(const string& email) {
     try {
         Customer customer = customerRepository->getById(email);
@@ -71,7 +119,11 @@ bool CustomerController::anonymizeCustomer(const string& email) {
     }
 }
 
-
+/**
+     * @brief Gets customers who purchased a specific product, sorted by most recent order.
+     * @param productId Product identifier
+     * @return Vector of unique customers sorted by purchase recency
+     */
 vector<Customer> CustomerController::getCustomersByProductSorted(const string& productId) const {
     vector<Order> orders = orderController->getOrdersByStatus(OrderStatus::Completed);
     vector<pair<Customer, string>> matching;
@@ -100,7 +152,12 @@ vector<Customer> CustomerController::getCustomersByProductSorted(const string& p
 
     return result;
 }
-
+/**
+     * @brief Updates a customer's password.
+     * @param email Customer's email identifier
+     * @param password New password
+     * @throws RepositoryException if customer not found
+     */
 void CustomerController::updatePassword(const string& email, const string& password) const {
         customerRepository->getById(email).setPassword(password);
 }
