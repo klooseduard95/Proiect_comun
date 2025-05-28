@@ -16,6 +16,8 @@ public:
 
     void showManageOrdersMenu(const User& employee);
     void showCustomerOrders(const User& customer);
+
+    void showCreateReservationMenu(const User &customer);
 };
 
 #endif

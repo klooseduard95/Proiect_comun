@@ -79,9 +79,10 @@ void UserManagementUI::showCustomerMenu() {
                         cout << "Error: " << e.what() << "\n";
                     }
                     break;
-            case 3: // implementare creare rezervare
-                    cout << "Feature not implemented yet.\n";
-                    break;
+            case 3:
+                orderUI.showCreateReservationMenu(loggedInUser);
+                break;
+
             case 4:
                     orderUI.showCustomerOrders(loggedInUser);
                     break;

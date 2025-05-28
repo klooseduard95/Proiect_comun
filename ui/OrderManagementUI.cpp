@@ -131,3 +131,57 @@ void OrderManagementUI::showCustomerOrders(const User& customer) {
         }
     }
 }
+
+void OrderManagementUI::showCreateReservationMenu(const User& customer) {
+    while (true) {
+        cout << "\n--- Create Reservation Menu ---\n";
+        cout << "1. View My Orders\n";
+        cout << "2. Reserve an Order by Index\n";
+        cout << "0. Back\n";
+
+        int choice = getUserChoice();
+        vector<Order> orders = orderController.getOrdersForCustomer(customer);
+
+        switch (choice) {
+            case 0:
+                return;
+
+            case 1:
+                if (orders.empty()) {
+                    cout << "No orders found.\n";
+                } else {
+                    printOrdersWithIndex(orders);
+                }
+                break;
+
+            case 2:
+                if (orders.empty()) {
+                    cout << "No orders to reserve.\n";
+                    break;
+                }
+
+                printOrdersWithIndex(orders);
+                cout << "Select order index to reserve: ";
+                int idx;
+                cin >> idx;
+
+                if (idx < 1 || idx > orders.size()) {
+                    cout << "Invalid selection.\n";
+                    break;
+                }
+
+                try {
+                    Order orderToReserve = orders[idx - 1];
+                    orderToReserve.setStatus(OrderStatus::Reservation);
+                    orderController.createReservation(customer, orderToReserve);
+                    cout << "Reservation successful.\n";
+                } catch (const exception& e) {
+                    cout << "Error: " << e.what() << "\n";
+                }
+                break;
+
+            default:
+                cout << "Invalid option.\n";
+        }
+    }
+}
