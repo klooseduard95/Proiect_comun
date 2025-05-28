@@ -38,6 +38,7 @@ target_sources(Proiect_comun PRIVATE
 target_sources(Proiect_comun PRIVATE
         repository/InMemoryRepository.h
         repository/UserRepository.cpp
+        repository/DataSeeder.cpp
 )
 
 target_sources(Proiect_comun PRIVATE

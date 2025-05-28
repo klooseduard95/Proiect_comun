@@ -7,16 +7,9 @@
 OrderController::OrderController(IRepository<Order>& repo) : orderRepo(repo) {}
 
 void OrderController::createReservation(const User& user, const Order& order) {
-    Customer customer(user.getId(), "", "", "", "");
-
-    Order newOrder(order.getOrderDate(), OrderStatus::Reservation,
-                   order.getProducts(), customer, order.getEmployee());
-
-    OrderValidator::validateStatusForReservation(newOrder);
-    orderRepo.add(newOrder);
+    OrderValidator::validateStatusForReservation(order);
+    orderRepo.add(order);
 }
-
-
 
 void OrderController::confirmOrder(const string& orderId) {
     Order order = orderRepo.getById(orderId);
@@ -54,7 +47,6 @@ void OrderController::takeOverOrder(const User& user, const string& orderId) {
     order.setEmployee(newEmployee);
     orderRepo.update(order);
 }
-
 
 vector<Order> OrderController::getOrdersByStatus(OrderStatus status) const {
     vector<Order> allOrders = orderRepo.getAll();

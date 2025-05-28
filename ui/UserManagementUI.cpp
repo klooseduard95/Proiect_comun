@@ -4,8 +4,8 @@
 
 using namespace std;
 
-UserManagementUI::UserManagementUI(UserManagementController& controller, ProductController& productController, OrderController& orderController, CustomerController& customerController ,CustomerUI& customerUI, ProductUI& productUI)
-    : userController(controller), productController(productController), orderController(orderController), customerController(customerController) ,customerUI(customerUI), productUI(productUI) {
+UserManagementUI::UserManagementUI(UserManagementController& controller, ProductController& productController, OrderController& orderController, CustomerController& customerController ,CustomerUI& customerUI, ProductUI& productUI, OrderManagementUI& orderUI)
+    : userController(controller), productController(productController), orderController(orderController), customerController(customerController) ,customerUI(customerUI), productUI(productUI), orderUI(orderUI) {
     // initializeSampleData();
 }
 
@@ -50,7 +50,7 @@ void UserManagementUI::showEmployeeMenu() {
             case 0: return;
             case 1: customerUI.run(); break;
             case 2: productUI.showMenu(); break;
-            case 3: ; break;
+            case 3: orderUI.showManageOrdersMenu(loggedInUser); break;
             default: cout << "Invalid option.\n"; break;
         }
     }
@@ -70,9 +70,21 @@ void UserManagementUI::showCustomerMenu() {
         switch (choice) {
             case 0: return;
             case 1: productController.listAvailableProducts(); break;
-            case 2: /*customerController.updatePassword(getNewPassword());*/ break;
-            case 3: //submenu; break;
-            case 4: //orderController.getOrdersForCustomer(); break;
+            case 2:
+                    try {
+                        string newPass = getNewPassword();
+                        customerController.updatePassword(loggedInUser.getEmail(), newPass);
+                        cout << "Password updated successfully.\n";
+                    } catch (const exception& e) {
+                        cout << "Error: " << e.what() << "\n";
+                    }
+                    break;
+            case 3: // implementare creare rezervare
+                    cout << "Feature not implemented yet.\n";
+                    break;
+            case 4:
+                    orderUI.showCustomerOrders(loggedInUser);
+                    break;
             default: cout << "Invalid option.\n"; break;
         }
     }
