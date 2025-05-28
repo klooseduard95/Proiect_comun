@@ -7,8 +7,24 @@
 #include <iostream>
 #include <algorithm>
 
+/**
+ * @brief Constructor pentru clasa ProductController.
+ *
+ * @param repo Pointer catre un repository generic pentru produse.
+ */
 ProductController::ProductController(IRepository<Product>* repo) : productRepository(repo) {}
 
+/**
+ * @brief Creeaza si adauga un nou produs in repository.
+ *
+ * Valideaza produsul folosind ProductValidator si, daca este valid, il adauga in repository.
+ *
+ * @param productId ID-ul produsului
+ * @param name Numele produsului
+ * @param price Pretul produsului
+ * @param stock Stocul initial al produsului
+ * @return true daca produsul a fost adaugat cu succes, false in caz de eroare
+ */
 bool ProductController::createProduct(const std::string& productId, const std::string& name, double price, int stock) {
     Product newProduct(productId, name, price, stock);
 
@@ -24,6 +40,12 @@ bool ProductController::createProduct(const std::string& productId, const std::s
     }
 }
 
+/**
+ * @brief Afiseaza toate produsele disponibile (cu stoc > 0), sortate crescator dupa pret.
+ *
+ * Produsele cu stoc zero sau negativ sunt eliminate din lista afisata.
+ * Daca nu exista produse disponibile, se afiseaza un mesaj corespunzator.
+ */
 void ProductController::listAvailableProducts() const {
     std::vector<Product> availableProducts = productRepository->getAll();
 

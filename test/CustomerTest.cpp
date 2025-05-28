@@ -6,7 +6,11 @@
 #include "../domain/Customer.h"
 #include "../repository/InMemoryRepository.h"
 
-// Test clasa Customer - constructor, getter, setter GDPR flag
+/**
+ * @brief Testeaza constructorul si metodele de acces pentru clasa Customer.
+ *
+ * Verifica initializarea unui obiect Customer, inclusiv flag-ul GDPR, si functionalitatea getter-elor si setter-ului.
+ */
 TEST(CustomerTests, CreateAndAccessCustomer) {
     Customer cust("maria@example.com", "pwd123", "Maria", "Popescu",
                   "Strada 1", "Important client", false);
@@ -22,7 +26,11 @@ TEST(CustomerTests, CreateAndAccessCustomer) {
     EXPECT_TRUE(cust.isGdprDeleted());
 }
 
-// Test repository pentru Customer - add, getById, update, remove
+/**
+ * @brief Testeaza functionalitatile repository-ului in memorie pentru Customer.
+ *
+ * Verifica operatiile add, getById, update si remove pentru obiecte de tip Customer.
+ */
 TEST(CustomerRepositoryTests, AddGetUpdateRemove) {
     InMemoryRepository<Customer> repo;
 

@@ -5,8 +5,15 @@
 #include <iostream>
 #include <limits>
 
+/**
+ * @brief Constructor pentru interfata utilizator ProductUI.
+ * @param controller Referinta catre controllerul de produse.
+ */
 ProductUI::ProductUI(ProductController& controller) : controller(controller) {}
 
+/**
+ * @brief Afiseaza meniul principal pentru gestionarea produselor si proceseaza optiunile utilizatorului.
+ */
 void ProductUI::showMenu() {
     int option;
     do {
@@ -36,6 +43,9 @@ void ProductUI::showMenu() {
     } while (option != 0);
 }
 
+/**
+ * @brief Citeste datele unui produs de la utilizator si incearca sa-l adauge prin controller.
+ */
 void ProductUI::addProduct() {
     std::string id, name;
     double price;
@@ -56,5 +66,6 @@ void ProductUI::addProduct() {
         std::cerr << "Error: " << e.what() << "\n";
     }
 
+    // Curata buffer-ul dupa citirea numerelor pentru a evita probleme la urmatoarea citire
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }

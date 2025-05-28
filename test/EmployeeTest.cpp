@@ -5,7 +5,11 @@
 #include "../domain/Employee.h"
 #include "../repository/InMemoryRepository.h"
 
-// Test clasa Employee - constructori, getter, setter
+/**
+ * @brief Testeaza constructorul si metodele de acces pentru clasa Employee.
+ *
+ * Verifica initializarea corecta a unui obiect Employee si functionalitatea getter-elor si setter-ului pentru salariu.
+ */
 TEST(EmployeeTests, CreateAndAccessEmployee) {
     Employee emp("john.doe@example.com", "pass123", "John", "Doe", "Developer", "1990-01-01", 5000.0);
 
@@ -20,7 +24,11 @@ TEST(EmployeeTests, CreateAndAccessEmployee) {
     EXPECT_DOUBLE_EQ(emp.getSalary(), 5500.0);
 }
 
-// Test InMemoryRepository pentru Employee: add, getById, update, remove
+/**
+ * @brief Testeaza functionalitatile repository-ului in memorie pentru Customer.
+ *
+ * Verifica operatiile add, getById, update si remove pentru obiecte de tip Customer.
+ */
 TEST(EmployeeRepositoryTests, AddGetUpdateRemove) {
     InMemoryRepository<Employee> repo;
 
