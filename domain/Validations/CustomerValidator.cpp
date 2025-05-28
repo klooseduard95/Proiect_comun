@@ -10,12 +10,16 @@
 
 using namespace std;
 
+CustomerValidator::CustomerValidator(IRepository<Customer> *repo) {
+    customerRepository = repo;
+}
+
+
 void CustomerValidator::ValidateEmail(const Customer &customer) {
-    InMemoryRepository<Customer> repository;
     if (std::regex pattern(R"(\w+@\w+\.\w+)"); !regex_match(customer.getEmail(), pattern)) {
         throw invalid_argument ("Invalid email format.");
     }
-    auto customer2 = repository.getById(customer.getId());
+    auto customer2 = this->customerRepository->getById(customer.getId());
     if (customer2.getEmail() == customer.getEmail()) {
         throw invalid_argument ("Email already exists.");
     }
