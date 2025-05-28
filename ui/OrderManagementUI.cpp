@@ -1,10 +1,9 @@
 #include "OrderManagementUI.h"
 #include <iostream>
-#include <algorithm>
-
 using namespace std;
 
-OrderManagementUI::OrderManagementUI(OrderController& controller) : orderController(controller) {}
+OrderManagementUI::OrderManagementUI(OrderController& controller, ProductController& productCtrl)
+    : orderController(controller), productController(productCtrl) {} // ✅ Add this
 
 int OrderManagementUI::getUserChoice() const {
     int choice;
@@ -104,19 +103,68 @@ void OrderManagementUI::showCustomerOrders(const User& customer) {
 
         switch (choice) {
             case 0: return;
-            case 1:
+            case 1: {
                 orders = orderController.getOrdersForCustomer(customer);
+                for (int i = 0; i < orders.size(); i++) {
+                    const auto& order = orders[i];
+
+                    cout << "Order ID: " << order.getId() << "\n";
+                    cout << "Date: " << order.getOrderDate() << "\n";
+                    cout << "Status: ";
+
+                    switch (order.getStatus()) {
+                        case OrderStatus::Reservation:
+                            cout << "Reservation";
+                            break;
+                        case OrderStatus::Confirmed:
+                            cout << "Confirmed";
+                            break;
+                        case OrderStatus::Completed:
+                            cout << "Completed";
+                            break;
+                        default:
+                            cout << "Unknown";
+                    }
+
+                    cout << "\nTotal Price: " << order.getTotalPrice() << "\n";
+                    cout << "---------------------------\n";
+                }
                 break;
+            }
+
             case 2: {
                 cout << "Enter status:\n0. Reservation\n1. Confirmed\n2. Completed\n";
                 int status;
                 cin >> status;
+
                 auto allByStatus = orderController.getOrdersByStatus(static_cast<OrderStatus>(status));
 
-                copy_if(allByStatus.begin(), allByStatus.end(), back_inserter(orders),
-                    [&customer](const Order& o) {
-                        return o.getCustomer().getId() == customer.getId();
-                    });
+                for (int i = 0; i < allByStatus.size(); i++) {
+                    const auto& order = allByStatus[i];
+
+                    cout << "Order ID: " << order.getId() << "\n";
+                    cout << "Date: " << order.getOrderDate() << "\n";
+                    cout << "Status: ";
+
+                    // Print enum as string manually
+                    switch (order.getStatus()) {
+                        case OrderStatus::Reservation:
+                            cout << "Reservation";
+                            break;
+                        case OrderStatus::Confirmed:
+                            cout << "Confirmed";
+                            break;
+                        case OrderStatus::Completed:
+                            cout << "Completed";
+                            break;
+                        default:
+                            cout << "Unknown";
+                    }
+
+                    cout << "\nTotal Price: " << order.getTotalPrice() << "\n";
+                    cout << "---------------------------\n";
+                }
+
                 break;
             }
             default:
@@ -132,56 +180,60 @@ void OrderManagementUI::showCustomerOrders(const User& customer) {
     }
 }
 
-void OrderManagementUI::showCreateReservationMenu(const User& customer) {
+void OrderManagementUI::showCreateReservationMenu(const Customer& customer) {
+    cout << "\n--- Creare Rezervare ---\n";
+
+    productController.listAvailableProducts();
+
+    vector<pair<Product, int>> selectedProducts;
+
     while (true) {
-        cout << "\n--- Create Reservation Menu ---\n";
-        cout << "1. View My Orders\n";
-        cout << "2. Reserve an Order by Index\n";
-        cout << "0. Back\n";
+        cout << "\nIntrodu ID-ul produsului (sau 0 pentru a termina): ";
+        string productId;
+        cin >> productId;
 
-        int choice = getUserChoice();
-        vector<Order> orders = orderController.getOrdersForCustomer(customer);
+        if (productId == "0") break;
 
-        switch (choice) {
-            case 0:
-                return;
+        cout << "Introdu cantitatea: ";
+        int qty;
+        cin >> qty;
 
-            case 1:
-                if (orders.empty()) {
-                    cout << "No orders found.\n";
-                } else {
-                    printOrdersWithIndex(orders);
-                }
-                break;
-
-            case 2:
-                if (orders.empty()) {
-                    cout << "No orders to reserve.\n";
-                    break;
-                }
-
-                printOrdersWithIndex(orders);
-                cout << "Select order index to reserve: ";
-                int idx;
-                cin >> idx;
-
-                if (idx < 1 || idx > orders.size()) {
-                    cout << "Invalid selection.\n";
-                    break;
-                }
-
-                try {
-                    Order orderToReserve = orders[idx - 1];
-                    orderToReserve.setStatus(OrderStatus::Reservation);
-                    orderController.createReservation(customer, orderToReserve);
-                    cout << "Reservation successful.\n";
-                } catch (const exception& e) {
-                    cout << "Error: " << e.what() << "\n";
-                }
-                break;
-
-            default:
-                cout << "Invalid option.\n";
+        if (qty <= 0) {
+            cout << "Cantitate invalidă.\n";
+            continue;
         }
+
+        cout << "Introdu numele produsului (pt verificare): ";
+        cin.ignore();
+        string name;
+        getline(cin, name);
+
+        cout << "Introdu prețul unitar: ";
+        double price;
+        cin >> price;
+
+        Product product(productId, name, price, qty);
+        selectedProducts.emplace_back(product, qty);
+    }
+
+    if (selectedProducts.empty()) {
+        cout << "Nicio rezervare creată.\n";
+        return;
+    }
+
+    cout << "Introdu data comenzii (YYYY-MM-DD): ";
+    string orderDate;
+    cin >> orderDate;
+
+    Employee dummy("x", "x", "x", "x", "x", "2000-01-01", 0.0);
+
+    Order newOrder(orderDate, OrderStatus::Reservation, selectedProducts, customer, dummy);
+
+    try {
+        orderController.createReservation(customer, newOrder);
+        cout << "Rezervare creată cu succes!\n";
+    } catch (const std::exception& e) {
+        cout << "Eroare la creare: " << e.what() << "\n";
     }
 }
+
