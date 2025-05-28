@@ -4,8 +4,8 @@
 
 using namespace std;
 
-UserManagementUI::UserManagementUI(UserManagementController& controller, ProductController& productController, OrderController& orderController, CustomerUI& customerUI, ProductUI& productUI)
-    : controller(controller), productController(productController), orderController(orderController), customerUI(customerUI), productUI(productUI) {
+UserManagementUI::UserManagementUI(UserManagementController& controller, ProductController& productController, OrderController& orderController, CustomerController& customerController ,CustomerUI& customerUI, ProductUI& productUI, OrderManagementUI& orderUI)
+    : userController(controller), productController(productController), orderController(orderController), customerController(customerController) ,customerUI(customerUI), productUI(productUI), orderUI(orderUI) {
     // initializeSampleData();
 }
 
@@ -17,7 +17,7 @@ void UserManagementUI::startLoginFlow() {
     getline(cin, password);
 
     try {
-        User loggedInUser = controller.loginUser(email, password);
+        User loggedInUser = userController.loginUser(email, password);
         cout << "\nLogin successful! Welcome, " << loggedInUser.getEmail() << ".\n";
         showUserMenu(loggedInUser);
     } catch (const exception& e) {
@@ -50,7 +50,7 @@ void UserManagementUI::showEmployeeMenu() {
             case 0: return;
             case 1: customerUI.run(); break;
             case 2: productUI.showMenu(); break;
-            case 3: ; break;
+            case 3: orderUI.showManageOrdersMenu(loggedInUser); break;
             default: cout << "Invalid option.\n"; break;
         }
     }
@@ -70,9 +70,21 @@ void UserManagementUI::showCustomerMenu() {
         switch (choice) {
             case 0: return;
             case 1: productController.listAvailableProducts(); break;
-            case 2: /*modifyProfile()*/; break;
-            case 3: //submenu; break;
-            case 4: //orderController.getOrdersForCustomer(); break;
+            case 2:
+                    try {
+                        string newPass = getNewPassword();
+                        customerController.updatePassword(loggedInUser.getEmail(), newPass);
+                        cout << "Password updated successfully.\n";
+                    } catch (const exception& e) {
+                        cout << "Error: " << e.what() << "\n";
+                    }
+                    break;
+            case 3: // implementare creare rezervare
+                    cout << "Feature not implemented yet.\n";
+                    break;
+            case 4:
+                    orderUI.showCustomerOrders(loggedInUser);
+                    break;
             default: cout << "Invalid option.\n"; break;
         }
     }
@@ -87,4 +99,15 @@ int UserManagementUI::getUserChoice() {
         cout << "Invalid input. Please enter a number: ";
     }
     return choice;
+}
+
+string UserManagementUI::getNewPassword() {
+    cout << "\nEnter new password: ";
+    string newPassword;
+    cin.ignore();
+    getline(cin, newPassword);
+    if (newPassword.empty()) {
+        throw invalid_argument("Password cannot be empty.");
+    }
+    return newPassword;
 }

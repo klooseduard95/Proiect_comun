@@ -2,7 +2,21 @@
 // Created by Eduard-Andreas Kloos on 17.04.2025.
 //
 
-#ifndef UI_H
-#define UI_H
+#ifndef MAIN_UI_H
+#define MAIN_UI_H
 
-#endif //UI_H
+#include "UserManagementUI.h"
+
+class UI {
+private:
+    UserManagementUI& userManagementUI;
+
+public:
+    explicit UI(UserManagementUI& userManagementUI);
+
+    void run();
+};
+
+#endif // MAIN_UI_H
+
+
