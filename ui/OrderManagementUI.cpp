@@ -1,6 +1,8 @@
 #include "OrderManagementUI.h"
 #include <iostream>
 #include <algorithm>
+#include <string.h>
+#include <format>
 
 using namespace std;
 
@@ -30,6 +32,9 @@ void OrderManagementUI::showManageOrdersMenu(const User& employee) {
         cout << "1. Change Order Status (Confirm/Complete)\n";
         cout << "2. Update Order\n";
         cout << "3. Take Over Order\n";
+        cout << "4. Show All Orders\n";
+        cout << "5. Show Orders By Status\n";
+        cout << "6. Show Total Price By Year\n";
         cout << "0. Back\n";
         int choice = getUserChoice();
 
@@ -82,6 +87,68 @@ void OrderManagementUI::showManageOrdersMenu(const User& employee) {
                     cout << "Order taken over successfully.\n";
                 } else {
                     cout << "Invalid selection.\n";
+                }
+                break;
+            }
+
+            case 4: {
+                vector<Order> orders = orderController.getOrdersForEmployee();
+                for (int i = 0; i < orders.size(); i++) {
+                    string status;
+                    if (orders[i].getStatus() == OrderStatus::Confirmed) {
+                        status = "Confirmed";
+                    }
+                    else if (orders[i].getStatus() == OrderStatus::Completed) {
+                        status = "Completed";
+                    }
+                    else if (orders[i].getStatus() == OrderStatus::Reservation) {
+                        status = "Reservation";
+                    }
+                    cout << "Order ID: " << orders[i].getId() << ", Date: " << orders[i].getOrderDate() << ", Status: " << status << "\n" << "Total Price: " << orders[i].getTotalPrice() << ".\n";
+                }
+                break;
+            }
+
+            case 5: {
+                cout << "Enter status:\n0. Reservation\n1. Confirmed\n2. Completed\n";
+                int status;
+                cin >> status;
+                auto allByStatus = orderController.getOrdersByStatus(static_cast<OrderStatus>(status));
+                for (int i = 0; i < allByStatus.size(); i++) {
+                    string status;
+                    if (allByStatus[i].getStatus() == OrderStatus::Confirmed) {
+                        status = "Confirmed";
+                    }
+                    else if (allByStatus[i].getStatus() == OrderStatus::Completed) {
+                        status = "Completed";
+                    }
+                    else if (allByStatus[i].getStatus() == OrderStatus::Reservation) {
+                        status = "Reservation";
+                    }
+                    cout << "Order ID: " << allByStatus[i].getId() << ", Date: " << allByStatus[i].getOrderDate() << ", Status: " << status << "\n" << "Total Price: " << allByStatus[i].getTotalPrice() << ".\n";
+                }
+                break;
+            }
+
+            case 6: {
+                cout << "Please choose which time period you would like to know the total price for:\n"
+                        "1. Year\n"
+                        "2. Month\n";
+                int choice1 = getUserChoice();
+                string year;
+                string month = "";
+                if (choice1 == 1) {
+                    cout << "Please introduce the year you are looking for: \n";
+                    cin >> year;
+                    pair <double,double> totalSum = orderController.getTotalSumForPeriod(year, month);
+                    cout << "Total Price: " << totalSum.first << ".\n";
+                }
+                if (choice1 == 2) {
+                    cout << "Please introduce the year and month you are looking for: \n";
+                    cin >> year;
+                    cin >> month;
+                    pair <double,double> totalSum = orderController.getTotalSumForPeriod(year, month);
+                    cout << "Total Price: " << totalSum.second << ".\n";
                 }
                 break;
             }

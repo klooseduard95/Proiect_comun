@@ -2,6 +2,7 @@
 #include "../domain/Validations/OrderValidator.h"
 #include <stdexcept>
 #include <algorithm>
+#include <utility>
 
 
 OrderController::OrderController(IRepository<Order>& repo) : orderRepo(repo) {}
@@ -71,21 +72,33 @@ vector<Order> OrderController::getOrdersForCustomer(const User& user) const {
 }
 
 
-double OrderController::getTotalSumForPeriod(const string& year, const string& month) const {
-    vector<Order> allOrders = orderRepo.getAll();
-    double totalSum = 0.0;
+pair<double,double> OrderController::getTotalSumForPeriod(const string& year, const string& month) const {
+    vector<Order> allOrders = getOrdersByStatus(OrderStatus::Completed);
+    double totalSumForYear = 0.0;
+    double totalSumForMonth = 0.0;
+    pair<double, double> total;
 
     for (const auto& order : allOrders) {
         string date = order.getOrderDate(); // Format assumed: YYYY-MM-DD
         if (date.substr(0, 4) == year) {
-            if (month.empty() || date.substr(5, 2) == month) {
-                totalSum += order.getTotalPrice();
+            if (!month.empty() && date.substr(5, 2) == month) {
+                totalSumForMonth += order.getTotalPrice();
+            }
+            else {
+                totalSumForYear += order.getTotalPrice();
             }
         }
+        total.first = totalSumForYear;
+        total.second = totalSumForMonth;
     }
-    return totalSum;
+    return total;
 }
 
 Order OrderController::getOrderById(const string& orderId) const {
     return orderRepo.getById(orderId);
+}
+
+vector<Order> OrderController::getOrdersForEmployee() const {
+    vector<Order> allOrders = orderRepo.getAll();;
+    return allOrders;
 }
