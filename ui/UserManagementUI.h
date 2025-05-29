@@ -25,6 +25,7 @@ private:
     OrderManagementUI& orderUI;
 
     User loggedInUser;
+    Customer loggedInCustomer;
 
     void showUserMenu(const User& user);
     void showEmployeeMenu();

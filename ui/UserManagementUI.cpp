@@ -80,7 +80,7 @@ void UserManagementUI::showCustomerMenu() {
                     }
                     break;
             case 3:
-                orderUI.showCreateReservationMenu(loggedInUser);
+                orderUI.showCreateReservationMenu(loggedInCustomer);
                 break;
 
             case 4:
