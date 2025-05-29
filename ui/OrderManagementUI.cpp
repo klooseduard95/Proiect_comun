@@ -7,7 +7,7 @@
 using namespace std;
 
 OrderManagementUI::OrderManagementUI(OrderController& controller, ProductController& productCtrl)
-    : orderController(controller), productController(productCtrl) {} // ✅ Add this
+    : orderController(controller), productController(productCtrl) {}
 
 int OrderManagementUI::getUserChoice() const {
     int choice;
@@ -177,6 +177,14 @@ void OrderManagementUI::showManageOrdersMenu(const User& employee) {
     }
 }
 
+/**
+ * @brief Displays a menu to show the customer's orders.
+ *
+ * Provides options to view all orders or filter them by status.
+ * Repeats until the user chooses to go back.
+ *
+ * @param customer The customer whose orders are to be displayed.
+ */
 void OrderManagementUI::showCustomerOrders(const User& customer) {
     while (true) {
         cout << "\n--- View Orders ---\n";
@@ -188,7 +196,9 @@ void OrderManagementUI::showCustomerOrders(const User& customer) {
         vector<Order> orders;
 
         switch (choice) {
-            case 0: return;
+            case 0:
+                return;
+
             case 1: {
                 orders = orderController.getOrdersForCustomer(customer);
                 for (int i = 0; i < orders.size(); i++) {
@@ -232,7 +242,6 @@ void OrderManagementUI::showCustomerOrders(const User& customer) {
                     cout << "Date: " << order.getOrderDate() << "\n";
                     cout << "Status: ";
 
-                    // Print enum as string manually
                     switch (order.getStatus()) {
                         case OrderStatus::Reservation:
                             cout << "Reservation";
@@ -253,6 +262,7 @@ void OrderManagementUI::showCustomerOrders(const User& customer) {
 
                 break;
             }
+
             default:
                 cout << "Invalid option.\n";
                 continue;
@@ -266,60 +276,64 @@ void OrderManagementUI::showCustomerOrders(const User& customer) {
     }
 }
 
+/**
+ * @brief Displays a menu for creating a new reservation.
+ *
+ * Allows the customer to select products and input order details
+ * to create a new reservation.
+ *
+ * @param customer The customer who is making the reservation.
+ */
 void OrderManagementUI::showCreateReservationMenu(const Customer& customer) {
-    cout << "\n--- Creare Rezervare ---\n";
+    cout << "\n--- Create Reservation ---\n";
 
     productController.listAvailableProducts();
 
     vector<pair<Product, int>> selectedProducts;
 
     while (true) {
-        cout << "\nIntrodu ID-ul produsului (sau 0 pentru a termina): ";
+        cout << "\nEnter product ID (or 0 to finish): ";
         string productId;
         cin >> productId;
 
         if (productId == "0") break;
 
-        cout << "Introdu cantitatea: ";
+        cout << "Enter quantity: ";
         int qty;
         cin >> qty;
 
         if (qty <= 0) {
-            cout << "Cantitate invalidă.\n";
+            cout << "Invalid quantity.\n";
             continue;
         }
 
-        cout << "Introdu numele produsului (pt verificare): ";
+        cout << "Enter product name (for verification): ";
         cin.ignore();
         string name;
         getline(cin, name);
 
-        cout << "Introdu prețul unitar: ";
-        double price;
-        cin >> price;
-
-        Product product(productId, name, price, qty);
-        selectedProducts.emplace_back(product, qty);
+        Product product = productController.getProductById(productId);
+         selectedProducts.emplace_back(product, qty);
     }
 
     if (selectedProducts.empty()) {
-        cout << "Nicio rezervare creată.\n";
+        cout << "No reservation was created.\n";
         return;
     }
 
-    cout << "Introdu data comenzii (YYYY-MM-DD): ";
+    cout << "Enter order date (YYYY-MM-DD): ";
     string orderDate;
     cin >> orderDate;
 
     Employee dummy("x", "x", "x", "x", "x", "2000-01-01", 0.0);
-
     Order newOrder(orderDate, OrderStatus::Reservation, selectedProducts, customer, dummy);
 
     try {
         orderController.createReservation(customer, newOrder);
-        cout << "Rezervare creată cu succes!\n";
+        cout << "Reservation created successfully!\n";
     } catch (const std::exception& e) {
-        cout << "Eroare la creare: " << e.what() << "\n";
+        cout << "Error creating reservation: " << e.what() << "\n";
     }
 }
+
 

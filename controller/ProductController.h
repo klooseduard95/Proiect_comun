@@ -20,5 +20,8 @@ public:
     bool createProduct(const std::string& productId, const std::string& name, double price, int stock);
 
     void listAvailableProducts() const;
+    Product getProductById(const std::string& productId) const {
+        return productRepository->getById(productId);
+    }
 };
 #endif //PRODUCTCONTROLLER_H
