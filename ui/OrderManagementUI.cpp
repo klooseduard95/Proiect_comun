@@ -312,10 +312,6 @@ void OrderManagementUI::showCreateReservationMenu(const Customer& customer) {
         string name;
         getline(cin, name);
 
-        // cout << "Enter unit price: ";
-        // double price;
-        // cin >> price;
-        //
         Product product = productController.getProductById(productId);
          selectedProducts.emplace_back(product, qty);
     }
