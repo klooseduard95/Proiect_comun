@@ -101,6 +101,19 @@ vector<Customer> CustomerController::getCustomersByProductSorted(const string& p
     return result;
 }
 
+/**
+ * @brief Updates the password for the customer with the given email.
+ *
+ * Retrieves the customer by email from the repository and updates their password.
+ *
+ * @param email The email (ID) of the customer whose password is to be updated.
+ * @param password The new password to set.
+ *
+ * @note This method assumes that the customer exists in the repository.
+ *
+ * @warning If the repository returns a copy of the Customer object rather than a reference,
+ *          the password update will not persist. Ensure that `getById` returns a reference if mutation is intended.
+ */
 void CustomerController::updatePassword(const string& email, const string& password) const {
         customerRepository->getById(email).setPassword(password);
 }
