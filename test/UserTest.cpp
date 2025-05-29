@@ -23,7 +23,7 @@ TEST(UserTests, CreateAccessUpdateUser ) {
 
 TEST(UserValidatorTest, ValidateUserRole) {
     UserValidator validator;
-    User user1("mihai@gmail.com", "Mihai","Employee");
+    User user1("mihai@gmail.com", "Mihai","employee");
     EXPECT_TRUE(validator.isEmployee(user1.getRole()));
     EXPECT_FALSE(validator.isCustomer(user1.getRole()));
 }
