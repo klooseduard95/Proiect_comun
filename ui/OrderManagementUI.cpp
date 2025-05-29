@@ -25,7 +25,24 @@ void OrderManagementUI::printOrdersWithIndex(const vector<Order>& orders) const 
              << "\n";
     }
 }
-
+/**
+ * @brief Displays and manages the employee order management menu.
+ *
+ * This method presents a console-based menu interface that allows an employee to:
+ * - Change the status of an order (confirm or complete)
+ * - Update an existing order
+ * - Take over responsibility for an order
+ * - View all their assigned orders
+ * - View orders filtered by a specific status
+ * - View total prices of orders grouped by year or by month
+ *
+ * The method runs in a loop until the user chooses to exit by selecting option 0.
+ * It operates only on orders with the status `Confirmed` when changing status, updating, or taking over.
+ *
+ * @param employee The user (employee) currently logged in, used for order ownership and update operations.
+ *
+ * @note If no orders are available with `Confirmed` status, the method exits early.
+ */
 void OrderManagementUI::showManageOrdersMenu(const User& employee) {
     while (true) {
         cout << "\n--- Manage Orders ---\n";
