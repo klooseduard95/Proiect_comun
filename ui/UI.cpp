@@ -10,6 +10,7 @@ UI::UI(UserManagementUI& userManagementUI)
 
 void UI::run() {
     std::cout << "Welcome to the Application!\n";
+    std::cout << "Please log in to continue.\n";
     userManagementUI.startLoginFlow();
 }
 
