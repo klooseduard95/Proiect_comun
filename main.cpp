@@ -45,7 +45,7 @@ int main() {
     // creeaza UI-uri auxiliare
     CustomerUI customerUI(customerController);
     ProductUI productUI(productController);
-    OrderManagementUI orderUI(orderController);
+    OrderManagementUI orderUI(orderController, productController);
 
     // creeaza UI principal
     UserManagementUI ui(userController, productController, orderController, customerController, customerUI, productUI, orderUI);

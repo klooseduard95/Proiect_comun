@@ -16,7 +16,6 @@ bool ProductController::createProduct(const std::string& productId, const std::s
         ProductValidator::validateForCreate(newProduct);
 
         productRepository->add(newProduct);
-        std::cout << "Produsul " << name << " a fost adăugat cu succes.\n";
         return true;
     } catch (const std::exception& e) {
         std::cout << "Eroare: " << e.what() << "\n";
