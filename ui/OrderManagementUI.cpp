@@ -172,7 +172,7 @@ void OrderManagementUI::showCustomerOrders(const User& customer) {
 
         switch (choice) {
             case 0: return;
-            case 1:
+            case 1: {
                 orders = orderController.getOrdersForCustomer(customer);
                 for (int i = 0; i < orders.size(); i++) {
                     const auto& order = orders[i];
