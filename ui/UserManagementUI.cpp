@@ -17,7 +17,7 @@ void UserManagementUI::startLoginFlow() {
     getline(cin, password);
 
     try {
-        User loggedInUser = userController.loginUser(email, password);
+        this->loggedInUser = userController.loginUser(email, password);
         cout << "\nLogin successful! Welcome, " << loggedInUser.getEmail() << ".\n";
         showUserMenu(loggedInUser);
     } catch (const exception& e) {
